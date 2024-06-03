@@ -1,5 +1,5 @@
-#ifndef WORLD_H
-#define WORLD_H
+#ifndef GAME_H
+#define GAME_H
 
 #include <vector>
 
@@ -8,10 +8,10 @@
 
 #include "Level.h"
 
-class AWorld
+class AGame
 {
 public:
-	AWorld()
+	AGame()
 	{
 		ALevel* level = new ALevel;
 		Levels.push_back(level);
@@ -34,7 +34,7 @@ public:
 
 		CurrentLevel = Levels[0];
 
-		Log(ELogType::INFO, "World init success\n");
+		Log(ELogType::INFO, "Game init success\n");
 	}
 
 	void Tick()

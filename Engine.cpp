@@ -5,7 +5,7 @@
 
 AEngine* gEngineInstance = nullptr;
 
-AEngine::AEngine(AWorld* World) : World(World)
+AEngine::AEngine(AGame* Game) : Game(Game)
 {
 	gEngineInstance = this;
 };
@@ -19,7 +19,7 @@ void AEngine::SetVideoParams()
 
 void AEngine::Init()
 {
-	World->Init();
+	Game->Init();
 
 	SetVideoParams();
 
@@ -37,8 +37,8 @@ void AEngine::Init()
 void AEngine::Tick()
 {
 	CalculateDeltaTime();
-	World->Tick();
-	Window->Render(World);
+	Game->Tick();
+	Window->Render(Game);
 }
 
 void AEngine::Run()
