@@ -106,29 +106,15 @@ public:
 	void Render(AWorld* World)
 	{
 		SDL_RenderClear(renderer);
-		// ALevelSettings* ls = World->GetCurrentLevel()->GetLevelSettings();
+		ALevel* CurrentLevel = World->GetCurrentLevel();
 		{
 			int w, h;
 			SDL_GetWindowSize(Window, &w, &h);
-			ALevelSettings* ls = World->GetCurrentLevel()->GetLevelSettings();
-			ColorRGBA c(ls->BackGroundColor);
+			ColorRGBA c(CurrentLevel->GetLevelSettings()->BackGroundColor);
 			SDL_Rect rect = {0,0,w,h};
 			SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
 			SDL_RenderFillRect(renderer, &rect);
 		}
-		// int w, h;
-		// SDL_GetWindowSize(Window, &w, &h);
-
-	    // for (int row = 0; row < h; ++row)
-	    // {
-	    // 	for (int col = 0; col < w; ++col)
-	    // 	{
-	    // 		ColorRGBA c(ls->BackGroundColor);
-		// 		SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
-		// 		SDL_RenderDrawPoint(renderer, col, row);
-	    // 	}
-	    // }
-	    //SDL_SetRenderDrawColor(renderer, 0,0,0,255);
 
 		draw_text("Hello World", 0x000000ff, false, 0xffffffff, 100, 200);
 

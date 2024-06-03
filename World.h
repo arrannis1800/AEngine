@@ -39,6 +39,7 @@ public:
 
 	void Tick()
 	{
+		// TODO: GameMode->Tick
 		CurrentLevel->Tick();
 	}
 

@@ -37,10 +37,8 @@ void AEngine::Init()
 void AEngine::Tick()
 {
 	CalculateDeltaTime();
-	// TODO: GameMode->Tick
 	World->Tick();
 	Window->Render(World);
-	// SDL_Delay(10);
 }
 
 void AEngine::Run()
