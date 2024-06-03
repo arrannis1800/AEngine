@@ -1,6 +1,8 @@
 #ifndef LEVELSETTINGS_H
 #define LEVELSETTINGS_H
 
+#include <cstdint>
+
 struct ALevelSettings
 {
 	int Height;

@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "AVideoParams.h"
+#include "Structs/AVideoParams.h"
 #include "MacrosLibrary.h"
 
 #include "Level.h"

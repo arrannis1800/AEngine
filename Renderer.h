@@ -6,8 +6,8 @@
 
 #include "MacrosLibrary.h"
 #include "World.h"
-#include "AVideoParams.h"
-#include "LevelSettings.h"
+#include "Structs/AVideoParams.h"
+#include "Structs/LevelSettings.h"
 
 struct ColorRGBA
 {
@@ -76,55 +76,64 @@ public:
 	// 	}
 	// };
 
-	// void draw_text(const char* text, uint32_t text_color, bool draw_bg, uint32_t bg_color, int x, int y)
-	// {
-	// 	ColorRGBA text_c(text_color);
-	// 	ColorRGBA bg_c(bg_color);
-	// 	if(!draw_bg)
-	// 		bg_c.a = 0;
-	// 	SDL_Surface* surfaceMessage  = TTF_RenderText_LCD(font, text, {text_c.a, text_c.r, text_c.g, text_c.b}, {bg_c.a, bg_c.r, bg_c.g, bg_c.b}); 
+	void draw_text(const char* text, uint32_t text_color, bool draw_bg, uint32_t bg_color, int x, int y)
+	{
+		ColorRGBA text_c(text_color);
+		ColorRGBA bg_c(bg_color);
+		SDL_Surface* SurfaceMessage;
+		if(draw_bg)
+		{
+			SurfaceMessage = TTF_RenderText_LCD(font, text, {text_c.r, text_c.g, text_c.b, text_c.a}, {bg_c.r, bg_c.g, bg_c.b, bg_c.a}); 
+		} else
+		{
+			SurfaceMessage = TTF_RenderText_Solid(font, text, {text_c.r, text_c.g, text_c.b, text_c.a});
+		}
+		// printf("rgba(%d,%d,%d,%d)\n", bg_c.r, bg_c.g, bg_c.b, bg_c.a);
+		// SDL_Surface* SurfaceMessage  = TTF_RenderText_LCD(font, text, {text_c.r, text_c.g, text_c.b, text_c.a}, {bg_c.r, bg_c.g, bg_c.b, bg_c.a}); 
 
-	// 	for (int row = 0; row < surfaceMessage->h; ++row)
-	//     {
-	//         for (int col = 0; col < surfaceMessage->w; ++col)
-	//         {
-	//             int frameX = x + col;
-	//             int frameY = y + row;
+		SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, SurfaceMessage);
 
-	//             if (frameX >= 0 && frameX < frame.Width && frameY >= 0 && frameY < frame.Height)
-	//             {
-	//             	uint32_t pixel = ((uint32_t *)surfaceMessage->pixels)[ ( row * surfaceMessage->w ) + col ];
-	//             	ColorRGBA c;
-	//             	SDL_GetRGBA(pixel, surfaceMessage->format, &c.r, &c.g, &c.b, &c.a);
-
-	//                 // printf("%zx\n", c.toUInt32());
-	//                 // if((pixelColor & 0xff) != 0x00)
-	//                 	frame.screen[frameX + frameY * frame.Width] = c.toUInt32();
-	//             }
-	//         }
-	//     }
+		int text_width = SurfaceMessage->w;
+		int text_height = SurfaceMessage->h;
+		SDL_Rect renderQuad = { x, y, text_width, text_height };
+		SDL_RenderCopy(renderer, Message, NULL, &renderQuad);
 
 
-	//     SDL_FreeSurface(surfaceMessage);
-	// };
+	    SDL_FreeSurface(SurfaceMessage);
+		SDL_DestroyTexture(Message);
+	};
 
 	void Render(AWorld* World)
 	{
 		SDL_RenderClear(renderer);
-		ALevelSettings* ls = World->GetCurrentLevel()->GetLevelSettings();
-		int w, h;
-		SDL_GetWindowSize(Window, &w, &h);
+		// ALevelSettings* ls = World->GetCurrentLevel()->GetLevelSettings();
+		{
+			int w, h;
+			SDL_GetWindowSize(Window, &w, &h);
+			ALevelSettings* ls = World->GetCurrentLevel()->GetLevelSettings();
+			ColorRGBA c(ls->BackGroundColor);
+			SDL_Rect rect = {0,0,w,h};
+			SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
+			SDL_RenderFillRect(renderer, &rect);
+		}
+		// int w, h;
+		// SDL_GetWindowSize(Window, &w, &h);
 
-	    for (int row = 0; row < h; ++row)
-	    {
-	    	for (int col = 0; col < w; ++col)
-	    	{
-	    		ColorRGBA c(ls->BackGroundColor);
-				SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
-				SDL_RenderDrawPoint(renderer, col, row);
-	    	}
-	    }
-	    SDL_SetRenderDrawColor(renderer, 0,0,0,255);
+	    // for (int row = 0; row < h; ++row)
+	    // {
+	    // 	for (int col = 0; col < w; ++col)
+	    // 	{
+	    // 		ColorRGBA c(ls->BackGroundColor);
+		// 		SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
+		// 		SDL_RenderDrawPoint(renderer, col, row);
+	    // 	}
+	    // }
+	    //SDL_SetRenderDrawColor(renderer, 0,0,0,255);
+
+		draw_text("Hello World", 0x000000ff, false, 0xffffffff, 100, 200);
+
+
+		draw_text("Hello World with bg", 0x000000ff, true, 0xeb4034ff, 200, 300);
 
 		SDL_RenderPresent(renderer);
 	}
