@@ -5,7 +5,7 @@
 #include <SDL2/SDL_ttf.h>
 
 #include "MacrosLibrary.h"
-#include "World.h"
+#include "Game.h"
 #include "Structs/AVideoParams.h"
 #include "Structs/LevelSettings.h"
 
@@ -103,10 +103,10 @@ public:
 		SDL_DestroyTexture(Message);
 	};
 
-	void Render(AWorld* World)
+	void Render(AGame* Game)
 	{
 		SDL_RenderClear(renderer);
-		ALevel* CurrentLevel = World->GetCurrentLevel();
+		ALevel* CurrentLevel = Game->GetCurrentLevel();
 		{
 			int w, h;
 			SDL_GetWindowSize(Window, &w, &h);

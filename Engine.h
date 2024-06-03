@@ -3,7 +3,7 @@
 
 #include <chrono>
 
-#include "World.h"
+#include "Game.h"
 #include "Renderer.h"
 
 #include <SDL.h>
@@ -12,7 +12,7 @@ class AEngine
 {
 private:
 	friend int SDL_main(int, char**);
-	AEngine(AWorld* World);
+	AEngine(AGame* Game);
 
 	void SetVideoParams();
 
@@ -32,7 +32,7 @@ public:
 	float GetDeltaTime();
 
 private:
-	AWorld* World = nullptr;
+	AGame* Game = nullptr;
 	AWindow* Window = nullptr;
 	AVideoParams* VideoParams;
 	float DeltaTime;
