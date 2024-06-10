@@ -29,6 +29,8 @@ public:
 
 	float GetDeltaTime();
 
+	int GetFPS();
+
 private:
 	AGame* Game = nullptr;
 	AWindow* Window = nullptr;
