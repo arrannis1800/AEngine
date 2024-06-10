@@ -86,3 +86,8 @@ float AEngine::GetDeltaTime()
 {
 	return DeltaTime;
 }
+
+int AEngine::GetFPS()
+{
+	return 1 / DeltaTime;
+}
