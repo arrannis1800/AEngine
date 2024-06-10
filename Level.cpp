@@ -15,6 +15,10 @@ void ALevel::Init()
 
 void ALevel::Tick()
 {
+
+	// TODO: UpdateLevelSettings();
+	// TODO: Tick all Objects
+	// TODO: Tick all Widgets
 	int red   = (uint8_t)(sin(position * 0.3) * 127 + 128);
 	int green = (uint8_t)(sin(position * 0.3 + 2 * M_PI / 3) * 127 + 128);
 	int blue  = (uint8_t)(sin(position * 0.3 + 4 * M_PI / 3) * 127 + 128);
