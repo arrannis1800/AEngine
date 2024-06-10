@@ -7,7 +7,7 @@
 #include "Structs/LevelSettings.h"
 
 namespace config {
-	static AVideoParams VideoParams = 
+	inline AVideoParams VideoParams = 
 	{
 		.Width = 700,
 		.Height = 700,
@@ -17,7 +17,7 @@ namespace config {
 		.FontSize = 24,
 	};
 
-	static ALevelSettings LevelSettings =
+	inline ALevelSettings LevelSettings =
 	{
 		.Height = 1000,
 		.Width = 1000,
