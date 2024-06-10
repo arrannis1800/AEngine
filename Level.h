@@ -23,6 +23,7 @@ private:
 	float position = 0;
 	ALevelSettings* LevelSettings;
 	// std::vector<AObject*> Objects;
+	// std::vector<AWidget*> Widgets;
 };
 
 #endif
