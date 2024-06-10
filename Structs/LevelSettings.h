@@ -9,7 +9,7 @@ struct ALevelSettings
 	int Height;
 	int Width;
 	int CameraVisibleHeight;
-	int CameraVisibleRatio = 16.0f / 9.0f;
+	float CameraVisibleRatio = 16.0f / 9.0f;
 	std::string name;
 	uint32_t BackGroundColor;
 };
