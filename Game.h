@@ -3,50 +3,20 @@
 
 #include <vector>
 
-#include "Structs/AVideoParams.h"
-#include "MacrosLibrary.h"
-
 #include "Level.h"
 
 class AGame
 {
 public:
-	AGame()
-	{
-		ALevel* level = new ALevel;
-		Levels.push_back(level);
-	}
+	AGame();
 
-	void InitLevels()
-	{
-		if(Levels.size() == 0)
-			AppTerminate();
-		for (auto& Level : Levels)
-		{
-			Level->Init();
-		}
-		Log(ELogType::INFO, "All levels init success\n");
-	}
+	void InitLevels();
 
-	void Init()
-	{
-		InitLevels();
+	void Init();
 
-		CurrentLevel = Levels[0];
+	void Tick();
 
-		Log(ELogType::INFO, "Game init success\n");
-	}
-
-	void Tick()
-	{
-		// TODO: GameMode->Tick
-		CurrentLevel->Tick();
-	}
-
-	ALevel* GetCurrentLevel() const
-	{
-		return CurrentLevel;
-	}
+	ALevel* GetCurrentLevel() const;
 private:
 	std::vector<ALevel*> Levels;
 	ALevel* CurrentLevel;
