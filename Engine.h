@@ -6,8 +6,6 @@
 #include "Game.h"
 #include "Renderer.h"
 
-#include <SDL.h>
-
 class AEngine
 {
 private:
