@@ -22,6 +22,7 @@ namespace config {
 		.Height = 1000,
 		.Width = 1000,
 		.CameraVisibleHeight = 100,
+		.CameraVisibleRatio = 16.0f / 9.0f,
 		.name = "first level",
 		.BackGroundColor = 0,
 	};
