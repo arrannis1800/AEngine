@@ -7,10 +7,6 @@
 AObject::AObject()
 {
 	bIsTickable = true;
-	posX = 0;
-	PosY = 0;
-	scaleX = 1;
-	ScaleY = 1;
 
 	form = EForm::Circle;
 	name = std::string("ExampleObject");
@@ -18,13 +14,16 @@ AObject::AObject()
 
 void AObject::Init(const std::string& name)
 {
-	this->name = name;
+	this->name += "_" + name;
 	Log(ELogType::INFO, "Object \"%s\" init success\n", this->name.c_str());
 }
 
 void AObject::Tick()
 {
-	
+	if(GetEngine())
+	{
+		Position.x += GetEngine()->GetDeltaTime() * 10;
+	}
 }
 
 bool AObject::GetTickable()

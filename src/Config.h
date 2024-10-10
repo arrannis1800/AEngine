@@ -1,28 +1,26 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include "SDL.h"
+//#include "SDL.h"
 
 #include "Structs/AVideoParams.h"
 #include "Structs/LevelSettings.h"
+#include "Structs/AVector.h"
 
 namespace config {
-	inline AVideoParams VideoParams = 
+	inline AVideoParams VideoParams =
 	{
 		.Width = 700,
 		.Height = 700,
-		.Flags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE,
-
-		.FontPath = "fonts/times.ttf",
-		.FontSize = 24,
 	};
 
 	inline ALevelSettings LevelSettings =
 	{
-		.Height = 1000,
-		.Width = 1000,
-		.CameraVisibleHeight = 100,
+		.Height = 1000.0f,
+		.Width = 1000.0f,
+		.CameraVisibleHeight = 100.0f,
 		.CameraVisibleRatio = 16.0f / 9.0f,
+		.CameraPosition = AVector(),
 		.name = "first_level",
 		.BackGroundColor = 0,
 	};

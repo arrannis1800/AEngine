@@ -2,8 +2,9 @@
 
 #include <exception>
 #include <cstdio>
+#include <cstdarg>
 
-#include <SDL.h>
+//#include <SDL.h>
 
 #include "Engine.h"
 
@@ -29,14 +30,9 @@ void Log(ELogType LogType, const char* Text, ...)
     va_end(args);
 }
 
-const char* GetErr()
-{
-	return SDL_GetError();
-}
 
 void AppTerminate()
 {
-	Log(ELogType::ERROR, GetErr());
 	std::terminate();
 }
 

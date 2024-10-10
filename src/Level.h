@@ -22,6 +22,8 @@ public:
 	void Tick();
 
 	ALevelSettings* GetLevelSettings() const;
+
+	const std::vector<AObject*>& GetLevelObjects() const;
 private:
 	float position = 0;
 	ALevelSettings* LevelSettings;

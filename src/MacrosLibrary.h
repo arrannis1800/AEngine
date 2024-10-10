@@ -8,7 +8,6 @@ const char* LogTypeToString(ELogType logType);
 
 void Log(ELogType LogType, const char* Text, ...);
 
-const char* GetErr();
 void AppTerminate();
 
 
