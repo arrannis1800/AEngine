@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 #include "Level.h"
@@ -49,4 +50,9 @@ void ALevel::Tick()
 ALevelSettings* ALevel::GetLevelSettings() const
 {
 	return LevelSettings;
+}
+
+const std::vector<AObject*>& ALevel::GetLevelObjects() const
+{
+	return Objects;
 }

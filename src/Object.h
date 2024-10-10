@@ -4,10 +4,12 @@
 #include <string>
 
 #include "Structs/EForm.h"
+#include "Structs/AVector.h"
 
 class AObject
 {
 	friend class ALevel;
+	friend class AWindow;
 public:
 	AObject();
 
@@ -18,8 +20,8 @@ public:
 	bool GetTickable();
 
 private:
-	float posX,PosY;
-	float scaleX,ScaleY;
+	AVector Position;
+	AVector Scale = AVector(10.0f, 20.0f);
 
 	EForm form;
 

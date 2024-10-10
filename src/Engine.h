@@ -9,7 +9,7 @@
 class AEngine
 {
 private:
-	friend int SDL_main(int, char**);
+	friend int main(int, char**);
 	AEngine(AGame* Game);
 
 	void SetVideoParams();
@@ -34,8 +34,8 @@ public:
 private:
 	AGame* Game = nullptr;
 	AWindow* Window = nullptr;
-	AVideoParams* VideoParams;
-	float DeltaTime;
+	AVideoParams* VideoParams = nullptr;
+	float DeltaTime = 0;
 	std::chrono::time_point<std::chrono::steady_clock> LastTime;
 };
 

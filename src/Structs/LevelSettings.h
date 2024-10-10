@@ -4,13 +4,16 @@
 #include <cstdint>
 #include <string>
 
+#include "AVector.h"
+
 struct ALevelSettings
 {
-	int Height;
-	int Width;
-	int CameraVisibleHeight;
+	float Height;
+	float Width;
+	float CameraVisibleHeight = Height;
 	float CameraVisibleRatio = 16.0f / 9.0f;
-	std::string name;
+	AVector CameraPosition;
+	std::string name = "Test";
 	uint32_t BackGroundColor;
 };
 

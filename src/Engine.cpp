@@ -1,5 +1,3 @@
-#include "SDL.h"
-
 #include "Engine.h"
 #include "MacrosLibrary.h"
 #include "Config.h"
@@ -14,8 +12,7 @@ AEngine::AEngine(AGame* Game) : Game(Game)
 void AEngine::SetVideoParams()
 {
 	VideoParams = &config::VideoParams;
-	Log(ELogType::INFO, "Video Prarms set\n\tWidth = %d\n\tHeight = %d\n\tFlags = %zu\n", 
-		VideoParams->Width, VideoParams->Height, VideoParams->Flags);
+	Log(ELogType::INFO, "Video Prarms set\n\tWidth = %d\n\tHeight = %d\n", VideoParams->Width, VideoParams->Height);
 }
 
 void AEngine::Init()
@@ -44,26 +41,19 @@ void AEngine::Tick()
 
 void AEngine::Run()
 {
-bool quit = false;
-SDL_Event e;
+	bool quit = false;
 
-while(!quit)
-{
-	while (SDL_PollEvent(&e))
-    {
-        if (e.type == SDL_QUIT)
-            quit = true;
-    }
-	Tick();
-}
+	while(!Window->ShouldClose())
+	{
+		Tick();
+	}
 }
 
 void AEngine::Finish()
 {
-	Window->sdl_finish();
+	Window->finish();
 	if(Window)
 		delete Window;
-	delete VideoParams;
 }
 
 void AEngine::Start()
