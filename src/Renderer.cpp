@@ -84,17 +84,6 @@ void ARenderer::Init(AVideoParams* pVideoParams)
 		glDeleteShader(shaderId);
 	}
 
-	//if (!CreateShader(GL_VERTEX_SHADER, vertexShader))
-	//{
-	//	printf("Vertex ERROR");
-	//	return;
-	//}
-	//if (!CreateShader(GL_FRAGMENT_SHADER, fragmentShader))
-	//{
-	//	printf("Fragment ERROR");
-	//	return;
-	//}
-
 	glLinkProgram(shaderprogram);
 
 	int success;
@@ -134,9 +123,9 @@ void ARenderer::Render(AGame* Game)
 	 VisibleRight = CurrentLevel->GetLevelSettings()->CameraPosition.x + (CurrentLevel->GetLevelSettings()->CameraVisibleHeight * CurrentLevel->GetLevelSettings()->CameraVisibleRatio / 2);
 	 VisibleLeft = CurrentLevel->GetLevelSettings()->CameraPosition.x - (CurrentLevel->GetLevelSettings()->CameraVisibleHeight * CurrentLevel->GetLevelSettings()->CameraVisibleRatio / 2);
 	 {
-		//for(auto& Object : CurrentLevel->GetLevelObjects())
+		for(auto& Object : CurrentLevel->GetLevelObjects())
 		{
-	 		//if(GetVisible(Object))
+	 		if(GetVisible(Object))
 	 		{
 	 			//AVector lPos = Object->Position;
 	 			//AVector lScale = Object->Scale;
@@ -188,14 +177,10 @@ void ARenderer::Render(AGame* Game)
 
 				glDrawArrays(GL_TRIANGLES, 0, 6);
 				glBindVertexArray(0);
-	 			//SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-				
-	 			//SDL_Rect rect = {
-	 			//	static_cast<int>((lPos.x + VisibleRight - lScale.x / 2) * LevelToScreenRatio), 
-	 			//	static_cast<int>((lPos.y + VisibleTop - lScale.y / 2) * LevelToScreenRatio), 
-	 			//	static_cast<int>(lScale.x * LevelToScreenRatio), 
-	 			//	static_cast<int>(lScale.y * LevelToScreenRatio)};
-	 			//SDL_RenderFillRect(renderer, &rect);
+
+				glDeleteBuffers(1, &m_vertexCoordsVBO);
+				glDeleteBuffers(1, &m_textureCoordsVBO);
+				glDeleteVertexArrays(1, &m_vao);
 	 		}
 	 	}
 	 }
