@@ -18,16 +18,33 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 
-# Add your source files and define the executable target
-add_executable(${ProjName}
+set(ProjSources 
     src/test.cpp
     src/Engine.cpp
     src/Level.cpp
     src/Object.cpp
     src/MacrosLibrary.cpp
-    src/Renderer.cpp
+    src/Render/Renderer.cpp
     src/Game.cpp
-    src/Callbacks.cpp
+)
+
+if(OpenGL_FOUND)
+    list(APPEND ProjSources 
+        src/Render/OpenGL/GL_Window.cpp
+        src/GL_Callbacks.cpp
+    )
+endif()
+
+# Add your source files and define the executable target
+add_executable(${ProjName}
+    ${ProjSources}
+)
+
+target_compile_definitions(${ProjName} PRIVATE OPENGL)
+
+target_include_directories(${ProjName}
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
 add_subdirectory(external/glfw)

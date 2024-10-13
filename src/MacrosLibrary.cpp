@@ -4,8 +4,6 @@
 #include <cstdio>
 #include <cstdarg>
 
-//#include <SDL.h>
-
 #include "Engine.h"
 
 
@@ -39,8 +37,3 @@ void AppTerminate()
 void ReadIni();
 
 bool WriteIni();
-
-AEngine* GetEngine()
-{
-    return gEngineInstance;
-}

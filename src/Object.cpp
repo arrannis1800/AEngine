@@ -3,6 +3,7 @@
 #include <string>
 
 #include "MacrosLibrary.h"
+#include "Structs/AGState.h"
 
 AObject::AObject()
 {
@@ -20,9 +21,9 @@ void AObject::Init(const std::string& name)
 
 void AObject::Tick()
 {
-	if(GetEngine())
+	if(gState.GetEngine())
 	{
-		Position.x += GetEngine()->GetDeltaTime() * 10;
+		Position.x += gState.GetEngine()->GetDeltaTime() * 10;
 	}
 }
 
