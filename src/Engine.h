@@ -4,12 +4,14 @@
 #include <chrono>
 
 #include "Game.h"
-#include "Renderer.h"
+#include "Render/Renderer.h"
 
 class AEngine
 {
 private:
 	friend int main(int, char**);
+	friend struct AGState;
+	AEngine() = default; 
 	AEngine(AGame* Game);
 
 	void SetVideoParams();
@@ -38,7 +40,5 @@ private:
 	float DeltaTime = 0;
 	std::chrono::time_point<std::chrono::steady_clock> LastTime;
 };
-
-extern AEngine* gEngineInstance;
 
 #endif

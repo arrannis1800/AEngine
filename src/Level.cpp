@@ -5,6 +5,7 @@
 
 #include "MacrosLibrary.h"
 #include "Engine.h"
+#include "Structs/AGState.h"
 
 void ALevel::Init()
 {
@@ -41,9 +42,9 @@ void ALevel::Tick()
 
 	LevelSettings->BackGroundColor = (red << 8*3) | (green << 8*2) | (blue << 8*1) | (0xff << 8*0);
 
-	if(GetEngine())
+	if(gState.GetEngine())
 	{
-		position += GetEngine()->GetDeltaTime();
+		position += gState.GetEngine()->GetDeltaTime();
 	}
 }
 

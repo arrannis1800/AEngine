@@ -1,11 +1,10 @@
 #ifndef RENDERER_H
 #define RENDERER_H
-#include <glad/glad.h>
-#include "GLFW/glfw3.h"
 
 #include "Game.h"
 #include "Structs/AVideoParams.h"
 #include "Callbacks.h"
+#include "Render/Window.h"
 
 class ARenderer
 {
@@ -20,11 +19,8 @@ public:
 
 	bool GetVisible(AObject* Object);
 
-	AVideoParams* GetVideoParams();
-	GLFWwindow* GetWindow();
-
 private:
-	GLFWwindow* Window;
+	AWindow Window;
 	GLuint shaderprogram;
 
 	AVideoParams* VideoParams;

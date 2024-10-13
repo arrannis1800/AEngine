@@ -15,5 +15,3 @@ void ReadIni();
 
 bool WriteIni();
 
-extern AEngine* gEngineInstance;
-AEngine* GetEngine();

@@ -6,42 +6,14 @@
 #include "MacrosLibrary.h"
 #include "Structs/AVideoParams.h"
 #include "Structs/ColorRGBA.h"
+#include "Structs/AGState.h"
 
 void ARenderer::Init(AVideoParams* pVideoParams)
 {
 	VideoParams = pVideoParams;
-	if (!glfwInit())
-	{
-		Log(ELogType::ERROR, "GLFW could not initialize! glfwInit error\n");
-		AppTerminate();
-	}
+	Window.Init(VideoParams);
+	
 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-
-	Window = glfwCreateWindow(VideoParams->Width, VideoParams->Height, "OpenGLTest", NULL, NULL);
-	if (!Window)
-	{
-		Log(ELogType::ERROR, "glfwCreateWindow error\n");
-		glfwTerminate();
-		AppTerminate();
-	}
-
-	InitCallbacks(this);
-
-	glfwMakeContextCurrent(Window);
-	if (!gladLoadGL())
-	{
-		Log(ELogType::ERROR, "Can't load glad\n");
-		AppTerminate();
-	}
-
-	Log(ELogType::INFO, "Renderer: %s\n", glGetString(GL_RENDERER));
-	Log(ELogType::INFO, "OpenGL: %s\n", glGetString(GL_VERSION));
-
-	glClearColor(0, 0, 0, 1);
 	shaderprogram = glCreateProgram();
 	{
 		char shader[] = "#version 330\nlayout(location = 0) in vec3 vertex_position;layout(location = 1) in vec3 vertex_color;out vec3 color;void main(){color = vertex_color;gl_Position = vec4(vertex_position, 1.0);}";
@@ -114,7 +86,7 @@ void ARenderer::Render(AGame* Game)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	int w, h;
-	glfwGetWindowSize(Window, &w, &h);
+	Window.GetWindowSize(&w, &h);
 	 ALevel* CurrentLevel = Game->GetCurrentLevel();
 	 CurrentLevel->GetLevelSettings()->CameraVisibleRatio = static_cast<float>(w)/h;
 	 float LevelToScreenRatio = h / CurrentLevel->GetLevelSettings()->CameraVisibleHeight;
@@ -186,18 +158,18 @@ void ARenderer::Render(AGame* Game)
 	 }
 
 
-	if(GetEngine())
+	if(gState.GetEngine())
 	{
-		glfwSetWindowTitle(Window, std::to_string(GetEngine()->GetFPS()).c_str());
+		glfwSetWindowTitle(Window.GetWindow(), std::to_string(gState.GetEngine()->GetFPS()).c_str());
 	}
 
-	glfwSwapBuffers(Window);
+	glfwSwapBuffers(Window.GetWindow());
 	glfwPollEvents();
 }
 
 bool ARenderer::ShouldClose()
 {
-	return glfwWindowShouldClose(Window);
+	return Window.ShouldClose(); 
 }
 
 bool ARenderer::GetVisible(AObject* Object)
@@ -212,21 +184,10 @@ bool ARenderer::GetVisible(AObject* Object)
 	return bVisible;
 }
 
-AVideoParams* ARenderer::GetVideoParams()
-{
-	return VideoParams;
-}
-
-GLFWwindow* ARenderer::GetWindow()
-{
-	return Window;
-}
-
 void ARenderer::finish()
 {
 	glDeleteProgram(shaderprogram);
-	glfwDestroyWindow(Window); 
-	glfwTerminate();
+	Window.Finish();
 }
 
 

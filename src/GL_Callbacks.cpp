@@ -1,9 +1,11 @@
 #include "Callbacks.h"
-#include "Renderer.h"
+#include "Render/Window.h"
+
+struct GLFWwindow;
 
 void WindowSizeCallback(GLFWwindow* Window, int width, int height)
 {
-	ARenderer* pWindow = static_cast<ARenderer*>(glfwGetWindowUserPointer(Window));
+	AWindow* pWindow = static_cast<AWindow*>(glfwGetWindowUserPointer(Window));
 	AVideoParams* params = pWindow->GetVideoParams();
 	params->Height = height;
 	params->Width = width;
@@ -18,7 +20,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 	}
 }
 
-void InitCallbacks(ARenderer* Window)
+void InitCallbacks(AWindow* Window)
 {
 	glfwSetWindowUserPointer(Window->GetWindow(), Window);
 	glfwSetWindowSizeCallback(Window->GetWindow(), WindowSizeCallback);
