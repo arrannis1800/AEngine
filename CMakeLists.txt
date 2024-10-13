@@ -34,6 +34,7 @@ if(OpenGL_FOUND)
         src/Render/OpenGL/GL_Window.cpp
         src/GL_Callbacks.cpp
         src/Render/OpenGL/GL_ShaderProgram.cpp
+        src/Render/OpenGL/GL_Texture.cpp
     )
 endif()
 

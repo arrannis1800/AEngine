@@ -42,6 +42,45 @@ std::shared_ptr<AShaderProgram> AResourceManager::GetShaderProgram(const std::st
 	}
 }
 
+std::shared_ptr<ATexture> AResourceManager::LoadTexture(const std::string& textureName, const std::string& texturePath)
+{
+	return std::shared_ptr<ATexture>();
+}
+
+std::shared_ptr<ATexture> AResourceManager::GenerateTexture(const std::string& textureName, int width, int height, int channels, const unsigned char* pixels)
+{
+	if (!pixels)
+	{
+		Log(ELogType::ERROR, "pixels for texture %s not provided\n", textureName.c_str());
+		return nullptr;
+	}
+
+	std::shared_ptr<ATexture> texture = std::make_shared<ATexture>(width, height, pixels, channels);
+
+	if (!texture)
+	{
+		Log(ELogType::ERROR, "texture %s not created\n", textureName.c_str());
+		return nullptr;
+	}
+	m_textures.emplace(textureName, texture);
+
+	return texture;
+}
+
+std::shared_ptr<ATexture> AResourceManager::GetTexture(const std::string& textureName)
+{
+	auto it = m_textures.find(textureName);
+	if (it != m_textures.end())
+	{
+		return it->second;
+	}
+	else
+	{
+		Log(ELogType::ERROR, "texture %s not found\n", textureName.c_str());
+		return nullptr;
+	}
+}
+
 std::string AResourceManager::GetFileData(const std::string& filePath)
 {
 	std::ifstream f;

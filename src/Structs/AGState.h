@@ -2,17 +2,20 @@
 #define AGSTATE_H
 
 #include <string>
-#include "Engine.h"
+class AEngine;
+class AResourceManager;
 
 struct AGState
 {
 private:
 	friend int main(int, char**);
 	std::string path;
-	AEngine* engine;
+	AEngine* engine = nullptr;
+	AResourceManager* ResourceManager = nullptr;
 public:
-	std::string& GetPath() { return path; }
-	AEngine* GetEngine() { return engine; }
+	std::string& GetPath() { return path; };
+	AEngine* GetEngine() { return engine; };
+	AResourceManager* GetResourceManager() { return ResourceManager; };
 };
 
 inline AGState gState;

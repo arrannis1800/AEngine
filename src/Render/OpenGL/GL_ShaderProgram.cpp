@@ -18,7 +18,7 @@ AShaderProgram::AShaderProgram(const std::string& vertexShader, const std::strin
 	glLinkProgram(m_ID);
 
 	int success;
-	glGetProgramiv(m_ID, GL_COMPILE_STATUS, &success);
+	glGetProgramiv(m_ID, GL_LINK_STATUS, &success);
 	if (!success)
 	{
 		char infoLog[512];
@@ -38,9 +38,14 @@ AShaderProgram::~AShaderProgram()
 	glDeleteProgram(m_ID);
 }
 
-void AShaderProgram::use() const
+void AShaderProgram::Use() const
 {
 	glUseProgram(m_ID);
+}
+
+void AShaderProgram::SetInt(const std::string& name, const uint32_t value)
+{
+	glUniform1i(glGetUniformLocation(m_ID, name.c_str()), value);
 }
 
 AShaderProgram::AShaderProgram(AShaderProgram&& other) noexcept
