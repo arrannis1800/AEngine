@@ -4,7 +4,7 @@
 #include <string>
 
 #include "Structs/EForm.h"
-#include "Structs/AVector.h"
+#include "Math/AVector.h"
 
 class AObject
 {
@@ -20,8 +20,8 @@ public:
 	bool GetTickable();
 
 private:
-	AVector Position;
-	AVector Scale = AVector(10.0f, 20.0f);
+	AVector2 Position = AVector2(0.0f, 0.0f);
+	AVector2 Scale = AVector2(10.0f, 25.0f);
 
 	EForm form;
 

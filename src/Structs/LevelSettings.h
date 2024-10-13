@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <string>
 
-#include "AVector.h"
+#include "Math/AVector.h"
 
 struct ALevelSettings
 {
@@ -12,7 +12,7 @@ struct ALevelSettings
 	float Width;
 	float CameraVisibleHeight = Height;
 	float CameraVisibleRatio = 16.0f / 9.0f;
-	AVector CameraPosition;
+	AVector2 CameraPosition;
 	std::string name = "Test";
 	uint32_t BackGroundColor;
 };
