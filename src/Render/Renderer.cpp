@@ -15,9 +15,16 @@ void ARenderer::Init(AVideoParams* pVideoParams)
 {
 	VideoParams = pVideoParams;
 	Window.Init(VideoParams);
+
 	
-	AResourceManager resource_manager;
-	resource_manager.LoadShaderProgram("color", "resources/shaders/color.vert", "resources/shaders/color.frag").get()->use();
+	gState.GetResourceManager()->LoadShaderProgram("color", "resources/shaders/color.vert", "resources/shaders/color.frag")->Use();
+	unsigned char pixels[] = {0xff, 0xff, 0x00, 0xff,
+							  0xff, 0xff, 0x00, 0xff,
+							  0xff, 0xff, 0x00, 0xff,
+							  0xff, 0xff, 0x00, 0xff, };
+	gState.GetResourceManager()->GenerateTexture("texture", 2, 2, 4, pixels)->Bind();
+	gState.GetResourceManager()->GetShaderProgram("color")->SetInt("tex", 0);
+
 }
 
  //void draw_rect(int x, int y, int h, int w, uint32_t color)
@@ -70,13 +77,13 @@ void ARenderer::Render(AGame* Game)
 
 				const GLfloat texCoords[] =
 				{
-					1.0f, 1.0f,0.0f,
-					1.0f, 1.0f,0.0f,
-					0.0f, 0.0f,0.0f,
+					1.0f, 1.0f,
+					1.0f, 0.0f,
+					0.0f, 0.0f,
 
-					0.0f, 0.0f,0.0f,
-					0.0f, 1.0f,0.0f,
-					1.0f, 1.0f,0.0f,
+					0.0f, 0.0f,
+					0.0f, 1.0f,
+					1.0f, 1.0f,
 				};
 
 				glGenVertexArrays(1, &m_vao);
@@ -93,12 +100,10 @@ void ARenderer::Render(AGame* Game)
 				glBindBuffer(GL_ARRAY_BUFFER, m_textureCoordsVBO);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), &texCoords, GL_STATIC_DRAW);
 				glEnableVertexAttribArray(1);
-				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 
-
-				//glActiveTexture(GL_TEXTURE0);
-				//m_pTexture->bind();
-
+				glActiveTexture(GL_TEXTURE0);
+				gState.GetResourceManager()->GetTexture("texture")->Bind();
 				glDrawArrays(GL_TRIANGLES, 0, 6);
 				glBindVertexArray(0);
 

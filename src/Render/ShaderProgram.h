@@ -13,7 +13,8 @@ public:
 	~AShaderProgram();
 
 	bool IsCompiled() const { return m_bIsCompiled; }
-	void use() const;
+	void Use() const;
+	void SetInt(const std::string& name, const uint32_t value);
 
 	AShaderProgram(AShaderProgram&) = delete;
 	AShaderProgram& operator=(const AShaderProgram&) = delete;
