@@ -18,11 +18,8 @@ void ARenderer::Init(AVideoParams* pVideoParams)
 
 	
 	gState.GetResourceManager()->LoadShaderProgram("color", "resources/shaders/color.vert", "resources/shaders/color.frag")->Use();
-	unsigned char pixels[] = {0xff, 0xff, 0x00, 0xff,
-							  0xff, 0xff, 0x00, 0xff,
-							  0xff, 0xff, 0x00, 0xff,
-							  0xff, 0xff, 0x00, 0xff, };
-	gState.GetResourceManager()->GenerateTexture("texture", 2, 2, 4, pixels)->Bind();
+	unsigned char pixels[] = {0xff, 0xff, 0x00, 0xff,};
+	gState.GetResourceManager()->GenerateTexture("texture", 1, 1, 4, pixels)->Bind();
 	gState.GetResourceManager()->GetShaderProgram("color")->SetInt("tex", 0);
 
 }
