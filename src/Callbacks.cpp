@@ -3,7 +3,7 @@
 
 void WindowSizeCallback(GLFWwindow* Window, int width, int height)
 {
-	AWindow* pWindow = static_cast<AWindow*>(glfwGetWindowUserPointer(Window));
+	ARenderer* pWindow = static_cast<ARenderer*>(glfwGetWindowUserPointer(Window));
 	AVideoParams* params = pWindow->GetVideoParams();
 	params->Height = height;
 	params->Width = width;
@@ -18,7 +18,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 	}
 }
 
-void InitCallbacks(AWindow* Window)
+void InitCallbacks(ARenderer* Window)
 {
 	glfwSetWindowUserPointer(Window->GetWindow(), Window);
 	glfwSetWindowSizeCallback(Window->GetWindow(), WindowSizeCallback);

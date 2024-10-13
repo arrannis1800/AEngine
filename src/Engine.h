@@ -33,7 +33,7 @@ public:
 
 private:
 	AGame* Game = nullptr;
-	AWindow* Window = nullptr;
+	ARenderer* Window = nullptr;
 	AVideoParams* VideoParams = nullptr;
 	float DeltaTime = 0;
 	std::chrono::time_point<std::chrono::steady_clock> LastTime;

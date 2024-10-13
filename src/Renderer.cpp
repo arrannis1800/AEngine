@@ -7,7 +7,7 @@
 #include "Structs/AVideoParams.h"
 #include "Structs/ColorRGBA.h"
 
-void AWindow::Init(AVideoParams* pVideoParams)
+void ARenderer::Init(AVideoParams* pVideoParams)
 {
 	VideoParams = pVideoParams;
 	if (!glfwInit())
@@ -42,8 +42,69 @@ void AWindow::Init(AVideoParams* pVideoParams)
 	Log(ELogType::INFO, "OpenGL: %s\n", glGetString(GL_VERSION));
 
 	glClearColor(0, 0, 0, 1);
-	
+	shaderprogram = glCreateProgram();
+	{
+		char shader[] = "#version 330\nlayout(location = 0) in vec3 vertex_position;layout(location = 1) in vec3 vertex_color;out vec3 color;void main(){color = vertex_color;gl_Position = vec4(vertex_position, 1.0);}";
+		GLuint shaderId = glCreateShader(GL_VERTEX_SHADER);
+		const char* code = shader;
+		glShaderSource(shaderId, 1, &code, nullptr);
+		glCompileShader(shaderId);
+		int success;
+		glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
+		if (!success)
+		{
+			char infoLog[512];
+			glGetShaderInfoLog(shaderId, 512, nullptr, infoLog);
+			printf("ERRORSHADER: %s\n", infoLog);
+			return;
+		}
 
+		glAttachShader(shaderprogram, shaderId);
+
+		glDeleteShader(shaderId);
+	}
+	{
+		char shader[] = "#version 330\nin vec3 color;out vec4 frag_color;void main(){frag_color = vec4(color, 1.0);}";
+		GLuint shaderId = glCreateShader(GL_FRAGMENT_SHADER);
+		const char* code = shader;
+		glShaderSource(shaderId, 1, &code, nullptr);
+		glCompileShader(shaderId);
+		int success;
+		glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
+		if (!success)
+		{
+			char infoLog[512];
+			glGetShaderInfoLog(shaderId, 512, nullptr, infoLog);
+			printf("ERRORSHADER: %s\n", infoLog);
+			return;
+		}
+
+		glAttachShader(shaderprogram, shaderId);
+
+		glDeleteShader(shaderId);
+	}
+
+	//if (!CreateShader(GL_VERTEX_SHADER, vertexShader))
+	//{
+	//	printf("Vertex ERROR");
+	//	return;
+	//}
+	//if (!CreateShader(GL_FRAGMENT_SHADER, fragmentShader))
+	//{
+	//	printf("Fragment ERROR");
+	//	return;
+	//}
+
+	glLinkProgram(shaderprogram);
+
+	int success;
+	glGetProgramiv(shaderprogram, GL_COMPILE_STATUS, &success);
+	if (!success)
+	{
+		char infoLog[512];
+		glGetProgramInfoLog(shaderprogram, 512, nullptr, infoLog);
+		printf("ERRORSHADERPROGRAM: %s\n", infoLog);
+	}
 }
 
  //void draw_rect(int x, int y, int h, int w, uint32_t color)
@@ -60,7 +121,7 @@ void AWindow::Init(AVideoParams* pVideoParams)
  //	}
  //};
 
-void AWindow::Render(AGame* Game)
+void ARenderer::Render(AGame* Game)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	int w, h;
@@ -68,23 +129,65 @@ void AWindow::Render(AGame* Game)
 	 ALevel* CurrentLevel = Game->GetCurrentLevel();
 	 CurrentLevel->GetLevelSettings()->CameraVisibleRatio = static_cast<float>(w)/h;
 	 float LevelToScreenRatio = h / CurrentLevel->GetLevelSettings()->CameraVisibleHeight;
-	 {
-	 	ColorRGBA c(CurrentLevel->GetLevelSettings()->BackGroundColor);
-	// 	SDL_Rect rect = {0,0,w,h};
-	// 	SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
-	// 	SDL_RenderFillRect(renderer, &rect);
-	 }
 	 VisibleTop = CurrentLevel->GetLevelSettings()->CameraPosition.y + (CurrentLevel->GetLevelSettings()->CameraVisibleHeight / 2);
 	 VisibleBottom = CurrentLevel->GetLevelSettings()->CameraPosition.y - (CurrentLevel->GetLevelSettings()->CameraVisibleHeight / 2);
 	 VisibleRight = CurrentLevel->GetLevelSettings()->CameraPosition.x + (CurrentLevel->GetLevelSettings()->CameraVisibleHeight * CurrentLevel->GetLevelSettings()->CameraVisibleRatio / 2);
 	 VisibleLeft = CurrentLevel->GetLevelSettings()->CameraPosition.x - (CurrentLevel->GetLevelSettings()->CameraVisibleHeight * CurrentLevel->GetLevelSettings()->CameraVisibleRatio / 2);
 	 {
-		for(auto& Object : CurrentLevel->GetLevelObjects())
+		//for(auto& Object : CurrentLevel->GetLevelObjects())
 		{
-	 		if(GetVisible(Object))
+	 		//if(GetVisible(Object))
 	 		{
-	 			AVector lPos = Object->Position;
-	 			AVector lScale = Object->Scale;
+	 			//AVector lPos = Object->Position;
+	 			//AVector lScale = Object->Scale;
+				glUseProgram(shaderprogram);
+				GLuint m_vao;
+				GLuint m_vertexCoordsVBO;
+				GLuint m_textureCoordsVBO;
+				const GLfloat points[] =
+				{
+					1.f, 1.f,
+					1.f, 0.f,
+					0.f, 0.f,
+
+					0.f, 0.f,
+					0.f, 1.f,
+					1.f, 1.f,
+				};
+
+				const GLfloat texCoords[] =
+				{
+					1.0f, 1.0f,0.0f,
+					1.0f, 1.0f,0.0f,
+					0.0f, 0.0f,0.0f,
+
+					0.0f, 0.0f,0.0f,
+					0.0f, 1.0f,0.0f,
+					1.0f, 1.0f,0.0f,
+				};
+
+				glGenVertexArrays(1, &m_vao);
+				glBindVertexArray(m_vao);
+
+				glGenBuffers(1, &m_vertexCoordsVBO);
+				glBindBuffer(GL_ARRAY_BUFFER, m_vertexCoordsVBO);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(points), &points, GL_STATIC_DRAW);
+				glEnableVertexAttribArray(0);
+				glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+
+				glGenBuffers(1, &m_textureCoordsVBO);
+				glBindBuffer(GL_ARRAY_BUFFER, m_textureCoordsVBO);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), &texCoords, GL_STATIC_DRAW);
+				glEnableVertexAttribArray(1);
+				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+
+				//glActiveTexture(GL_TEXTURE0);
+				//m_pTexture->bind();
+
+				glDrawArrays(GL_TRIANGLES, 0, 6);
+				glBindVertexArray(0);
 	 			//SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 				
 	 			//SDL_Rect rect = {
@@ -107,12 +210,12 @@ void AWindow::Render(AGame* Game)
 	glfwPollEvents();
 }
 
-bool AWindow::ShouldClose()
+bool ARenderer::ShouldClose()
 {
 	return glfwWindowShouldClose(Window);
 }
 
-bool AWindow::GetVisible(AObject* Object)
+bool ARenderer::GetVisible(AObject* Object)
 {
 	bool bVisible = false;
 	AVector lPos = Object->Position;
@@ -124,18 +227,19 @@ bool AWindow::GetVisible(AObject* Object)
 	return bVisible;
 }
 
-AVideoParams* AWindow::GetVideoParams()
+AVideoParams* ARenderer::GetVideoParams()
 {
 	return VideoParams;
 }
 
-GLFWwindow* AWindow::GetWindow()
+GLFWwindow* ARenderer::GetWindow()
 {
 	return Window;
 }
 
-void AWindow::finish()
+void ARenderer::finish()
 {
+	glDeleteProgram(shaderprogram);
 	glfwDestroyWindow(Window); 
 	glfwTerminate();
 }

@@ -21,7 +21,7 @@ void AEngine::Init()
 
 	SetVideoParams();
 
-	Window = new AWindow();
+	Window = new ARenderer();
 	if(!Window)
 	{
 		AppTerminate();

@@ -3,11 +3,11 @@
 
 struct GLFWwindow;
 
-class AWindow;
+class ARenderer;
 
 void WindowSizeCallback(GLFWwindow* Window, int width, int height);
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
-void InitCallbacks(AWindow* Window);
+void InitCallbacks(ARenderer* Window);
 
 #endif // !CALLBACKS_H

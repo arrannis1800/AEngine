@@ -7,7 +7,7 @@
 #include "Structs/AVideoParams.h"
 #include "Callbacks.h"
 
-class AWindow
+class ARenderer
 {
 public:
 	void Init(AVideoParams* pVideoParams);
@@ -25,6 +25,7 @@ public:
 
 private:
 	GLFWwindow* Window;
+	GLuint shaderprogram;
 
 	AVideoParams* VideoParams;
 

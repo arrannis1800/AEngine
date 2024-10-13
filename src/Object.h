@@ -9,7 +9,7 @@
 class AObject
 {
 	friend class ALevel;
-	friend class AWindow;
+	friend class ARenderer;
 public:
 	AObject();
 
