@@ -1,22 +1,17 @@
-#include "ShaderProgram.h"
-#include "ShaderProgram.h"
-#include "ShaderProgram.h"
-#include "ShaderProgram.h"
-#include "ShaderProgram.h"
-#include "ShaderProgram.h"
-#include "ShaderProgram.h"
+#include "Render/ShaderProgram.h"
 
-#include "Render/OpenGL/ShaderProgram.h"
+#include "glad/glad.h"
+
 #include "MacrosLibrary.h"
 
 AShaderProgram::AShaderProgram(const std::string& vertexShader, const std::string& fragmentShader)
 {
 	m_ID = glCreateProgram();
-	if (!CreateShader(GL_VERTEX_SHADER, vertexShader))
+	if (!CreateShader(EShaderType::VERTEX, vertexShader))
 	{
 		AppTerminate();
 	}
-	if (!CreateShader(GL_FRAGMENT_SHADER, fragmentShader))
+	if (!CreateShader(EShaderType::FRAGMENT, fragmentShader))
 	{
 		AppTerminate();
 	}
@@ -70,9 +65,21 @@ AShaderProgram& AShaderProgram::operator=(AShaderProgram&& other) noexcept
 	return *this;
 }
 
-bool AShaderProgram::CreateShader(GLenum type, const std::string& shader)
+bool AShaderProgram::CreateShader(EShaderType type, const std::string& shader)
 {
-	GLuint shaderId = glCreateShader(type);
+	GLuint shaderId = 0;
+	switch (type)
+	{
+	case EShaderType::VERTEX:
+		shaderId = glCreateShader(GL_VERTEX_SHADER);
+		break;
+	case EShaderType::FRAGMENT:
+		shaderId = glCreateShader(GL_FRAGMENT_SHADER);
+		break;
+	default:
+		break;
+	}
+	 
 	const char* code = shader.c_str();
 	glShaderSource(shaderId, 1, &code, nullptr);
 	glCompileShader(shaderId);
@@ -85,7 +92,7 @@ bool AShaderProgram::CreateShader(GLenum type, const std::string& shader)
 	return true;
 }
 
-bool AShaderProgram::CheckShaderError(GLuint shader)
+bool AShaderProgram::CheckShaderError(uint32_t shader)
 {
 	int success;
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);

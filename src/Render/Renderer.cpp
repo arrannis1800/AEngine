@@ -8,7 +8,7 @@
 #include "Structs/ColorRGBA.h"
 #include "Structs/AGState.h"
 
-#include "Render/OpenGL/ShaderProgram.h"
+#include "Render/ShaderProgram.h"
 #include "Resources/ResourceManager.h"
 
 void ARenderer::Init(AVideoParams* pVideoParams)

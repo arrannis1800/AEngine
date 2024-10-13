@@ -33,7 +33,7 @@ if(OpenGL_FOUND)
     list(APPEND ProjSources 
         src/Render/OpenGL/GL_Window.cpp
         src/GL_Callbacks.cpp
-        src/Render/OpenGL/ShaderProgram.cpp
+        src/Render/OpenGL/GL_ShaderProgram.cpp
     )
 endif()
 

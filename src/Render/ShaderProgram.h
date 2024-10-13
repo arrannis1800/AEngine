@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "glad/glad.h"
+#include "Structs/EShaderTypes.h"
 
 class AShaderProgram
 {
@@ -21,10 +21,10 @@ public:
 	AShaderProgram(AShaderProgram&& other) noexcept;
 	AShaderProgram& operator=(AShaderProgram&& other) noexcept;
 private:
-	bool CreateShader(GLenum type, const std::string& shader);
-	bool CheckShaderError(GLuint shader);
+	bool CreateShader(EShaderType type, const std::string& shader);
+	bool CheckShaderError(uint32_t shader);
 
-	GLuint m_ID = 0;
+	uint32_t m_ID = 0;
 	bool m_bIsCompiled = false;
 };
 
