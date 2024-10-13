@@ -4,6 +4,7 @@
 #include <string>
 
 #include "Structs/EShaderTypes.h"
+#include "Math/Mat4.h"
 
 class AShaderProgram
 {
@@ -15,6 +16,7 @@ public:
 	bool IsCompiled() const { return m_bIsCompiled; }
 	void Use() const;
 	void SetInt(const std::string& name, const uint32_t value);
+	void SetMatrix4(const std::string& name, const AMat4x4& matrix);
 
 	AShaderProgram(AShaderProgram&) = delete;
 	AShaderProgram& operator=(const AShaderProgram&) = delete;

@@ -48,6 +48,11 @@ void AShaderProgram::SetInt(const std::string& name, const uint32_t value)
 	glUniform1i(glGetUniformLocation(m_ID, name.c_str()), value);
 }
 
+void AShaderProgram::SetMatrix4(const std::string& name, const AMat4x4& matrix)
+{
+	glUniformMatrix4fv(glGetUniformLocation(m_ID, name.c_str()), 1, GL_FALSE, matrix.GetPtr());
+}
+
 AShaderProgram::AShaderProgram(AShaderProgram&& other) noexcept
 {
 	m_ID = other.m_ID;

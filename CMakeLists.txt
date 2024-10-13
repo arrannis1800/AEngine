@@ -27,6 +27,7 @@ set(ProjSources
     src/Render/Renderer.cpp
     src/Game.cpp
     src/Resources/ResourceManager.cpp
+    src/Math/Mat4.cpp
 )
 
 if(OpenGL_FOUND)

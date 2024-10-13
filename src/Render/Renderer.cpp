@@ -58,8 +58,8 @@ void ARenderer::Render(AGame* Game)
 		{
 	 		if(GetVisible(Object))
 	 		{
-	 			//AVector lPos = Object->Position;
-	 			//AVector lScale = Object->Scale;
+	 			AVector2 lPos = Object->Position;
+	 			AVector2 lScale = Object->Scale;
 				
 				GLuint m_vao;
 				GLuint m_vertexCoordsVBO;
@@ -103,6 +103,14 @@ void ARenderer::Render(AGame* Game)
 				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 				glActiveTexture(GL_TEXTURE0);
+				AMat4x4 model(1.0f);
+				model = model.Translate({ -0.5f * lScale.x, -0.5f * lScale.y, 0.0f }).Translate({ lPos.x,lPos.y, 0.0f });
+				//model.Rotate(m_rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+				model = model.Scale({ lScale.x,lScale.y, 1.0f });
+
+				AMat4x4 projectionMatrix = AMat4x4::Ortho(VisibleLeft, VisibleRight, VisibleBottom, VisibleTop, -100.0f, 100.0f); // 0.0f, VideoParams->Width, 0.0f, VideoParams->Height, -100.0f, 100.0f);
+				gState.GetResourceManager()->GetShaderProgram("color")->SetMatrix4("modelMat", model);
+				gState.GetResourceManager()->GetShaderProgram("color")->SetMatrix4("projectionMat", projectionMatrix);
 				gState.GetResourceManager()->GetTexture("texture")->Bind();
 				glDrawArrays(GL_TRIANGLES, 0, 6);
 				glBindVertexArray(0);
@@ -132,8 +140,8 @@ bool ARenderer::ShouldClose()
 bool ARenderer::GetVisible(AObject* Object)
 {
 	bool bVisible = false;
-	AVector lPos = Object->Position;
-	AVector lScale = Object->Scale;
+	AVector2 lPos = Object->Position;
+	AVector2 lScale = Object->Scale;
 	if((VisibleTop > lPos.y - lScale.y / 2) && (VisibleBottom <= lPos.y + lScale.y / 2) && (VisibleLeft <= lPos.x + lScale.x / 2) && (VisibleRight > lPos.x + lScale.x / 2))
 	{
 		bVisible = true;
