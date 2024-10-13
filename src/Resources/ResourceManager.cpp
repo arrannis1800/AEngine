@@ -4,11 +4,6 @@
 
 std::shared_ptr<AShaderProgram> AResourceManager::LoadShaderProgram(const std::string& shaderName, const std::string& vertexShaderPath, const std::string& fragmentShaderPath)
 {
-	std::shared_ptr<AShaderProgram> preloadedShader = GetShaderProgram(shaderName);
-	if (preloadedShader)
-		return preloadedShader;
-
-
 	std::string vertexShader = GetFileData(vertexShaderPath);
 	if (vertexShader.empty())
 	{

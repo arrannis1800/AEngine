@@ -8,9 +8,8 @@
 #include <memory>
 
 #include "Structs/AGState.h"
-#ifdef OPENGL
-#include "Render/OpenGL/ShaderProgram.h"
-#endif // OPENGL
+#include "Render/ShaderProgram.h"
+
 
 class AResourceManager
 {
