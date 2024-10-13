@@ -8,64 +8,16 @@
 #include "Structs/ColorRGBA.h"
 #include "Structs/AGState.h"
 
+#include "Render/OpenGL/ShaderProgram.h"
+#include "Resources/ResourceManager.h"
+
 void ARenderer::Init(AVideoParams* pVideoParams)
 {
 	VideoParams = pVideoParams;
 	Window.Init(VideoParams);
 	
-
-	shaderprogram = glCreateProgram();
-	{
-		char shader[] = "#version 330\nlayout(location = 0) in vec3 vertex_position;layout(location = 1) in vec3 vertex_color;out vec3 color;void main(){color = vertex_color;gl_Position = vec4(vertex_position, 1.0);}";
-		GLuint shaderId = glCreateShader(GL_VERTEX_SHADER);
-		const char* code = shader;
-		glShaderSource(shaderId, 1, &code, nullptr);
-		glCompileShader(shaderId);
-		int success;
-		glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			char infoLog[512];
-			glGetShaderInfoLog(shaderId, 512, nullptr, infoLog);
-			printf("ERRORSHADER: %s\n", infoLog);
-			return;
-		}
-
-		glAttachShader(shaderprogram, shaderId);
-
-		glDeleteShader(shaderId);
-	}
-	{
-		char shader[] = "#version 330\nin vec3 color;out vec4 frag_color;void main(){frag_color = vec4(color, 1.0);}";
-		GLuint shaderId = glCreateShader(GL_FRAGMENT_SHADER);
-		const char* code = shader;
-		glShaderSource(shaderId, 1, &code, nullptr);
-		glCompileShader(shaderId);
-		int success;
-		glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			char infoLog[512];
-			glGetShaderInfoLog(shaderId, 512, nullptr, infoLog);
-			printf("ERRORSHADER: %s\n", infoLog);
-			return;
-		}
-
-		glAttachShader(shaderprogram, shaderId);
-
-		glDeleteShader(shaderId);
-	}
-
-	glLinkProgram(shaderprogram);
-
-	int success;
-	glGetProgramiv(shaderprogram, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		char infoLog[512];
-		glGetProgramInfoLog(shaderprogram, 512, nullptr, infoLog);
-		printf("ERRORSHADERPROGRAM: %s\n", infoLog);
-	}
+	AResourceManager resource_manager;
+	resource_manager.LoadShaderProgram("color", "resources/shaders/color.vert", "resources/shaders/color.frag").get()->use();
 }
 
  //void draw_rect(int x, int y, int h, int w, uint32_t color)
@@ -101,7 +53,7 @@ void ARenderer::Render(AGame* Game)
 	 		{
 	 			//AVector lPos = Object->Position;
 	 			//AVector lScale = Object->Scale;
-				glUseProgram(shaderprogram);
+				
 				GLuint m_vao;
 				GLuint m_vertexCoordsVBO;
 				GLuint m_textureCoordsVBO;

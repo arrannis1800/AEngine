@@ -26,12 +26,14 @@ set(ProjSources
     src/MacrosLibrary.cpp
     src/Render/Renderer.cpp
     src/Game.cpp
+    src/Resources/ResourceManager.cpp
 )
 
 if(OpenGL_FOUND)
     list(APPEND ProjSources 
         src/Render/OpenGL/GL_Window.cpp
         src/GL_Callbacks.cpp
+        src/Render/OpenGL/ShaderProgram.cpp
     )
 endif()
 
@@ -53,3 +55,6 @@ target_link_libraries(${ProjName} glfw)
 add_subdirectory(external/glad)
 target_link_libraries(${ProjName} glad)
 
+add_custom_command(TARGET ${ProjName} POST_BUILD
+				   COMMAND ${CMAKE_COMMAND} -E copy_directory
+				   ${CMAKE_SOURCE_DIR}/resources $<TARGET_FILE_DIR:${ProjName}>/resources)
