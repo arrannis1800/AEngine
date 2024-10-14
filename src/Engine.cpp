@@ -17,18 +17,20 @@ void AEngine::SetVideoParams()
 
 void AEngine::Init()
 {
+	{
+		Window = new ARenderer();
+		if (!Window)
+		{
+			AppTerminate();
+		}
+		SetVideoParams();
+		Window->Init(VideoParams);
+	}
+
 	Game->Init();
 
-	SetVideoParams();
-
-	Window = new ARenderer();
-	if(!Window)
-	{
-		AppTerminate();
-	}
-	
-	Window->Init(VideoParams);
 	CalculateDeltaTime();
+	
 	Log(ELogType::INFO, "Engine init success\n");
 }
 

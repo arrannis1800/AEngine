@@ -19,7 +19,7 @@ public:
 	std::shared_ptr<AShaderProgram> GetShaderProgram(const std::string& shaderName);
 
 	std::shared_ptr<ATexture> LoadTexture(const std::string& textureName, const std::string& texturePath);
-	std::shared_ptr<ATexture> GenerateTexture(const std::string& textureName, int width, int height, int channels, const unsigned char* pixels);
+	std::shared_ptr<ATexture> CreateTexture(const std::string& textureName, int width, int height, int channels, const unsigned char* pixels);
 	std::shared_ptr<ATexture> GetTexture(const std::string& textureName);
 
 private:

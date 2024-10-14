@@ -47,7 +47,7 @@ std::shared_ptr<ATexture> AResourceManager::LoadTexture(const std::string& textu
 	return std::shared_ptr<ATexture>();
 }
 
-std::shared_ptr<ATexture> AResourceManager::GenerateTexture(const std::string& textureName, int width, int height, int channels, const unsigned char* pixels)
+std::shared_ptr<ATexture> AResourceManager::CreateTexture(const std::string& textureName, int width, int height, int channels, const unsigned char* pixels)
 {
 	if (!pixels)
 	{

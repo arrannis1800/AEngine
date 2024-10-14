@@ -10,6 +10,7 @@
 
 #include "Render/ShaderProgram.h"
 #include "Resources/ResourceManager.h"
+#include "Render/Shape.h"
 
 void ARenderer::Init(AVideoParams* pVideoParams)
 {
@@ -18,25 +19,9 @@ void ARenderer::Init(AVideoParams* pVideoParams)
 
 	
 	gState.GetResourceManager()->LoadShaderProgram("color", "resources/shaders/color.vert", "resources/shaders/color.frag")->Use();
-	unsigned char pixels[] = {0xff, 0xff, 0x00, 0xff,};
-	gState.GetResourceManager()->GenerateTexture("texture", 1, 1, 4, pixels)->Bind();
 	gState.GetResourceManager()->GetShaderProgram("color")->SetInt("tex", 0);
 
 }
-
- //void draw_rect(int x, int y, int h, int w, uint32_t color)
- //{
- //	for (int row = y; row < y+h; ++row)
- //	{
- //		for (int col = x; col < x+w; ++col)
- //		{
- //			if((row >= 0) && (row < frame.Height) && (col >= 0) && (col < frame.Width))
- //			{
- //				frame.screen[col + row*frame.Width] = color;
- //			}
- //		}
- //	}
- //};
 
 void ARenderer::Render(AGame* Game)
 {
@@ -50,6 +35,7 @@ void ARenderer::Render(AGame* Game)
 	 VisibleBottom = CurrentLevel->GetLevelSettings()->CameraPosition.y - (CurrentLevel->GetLevelSettings()->CameraVisibleHeight / 2);
 	 VisibleRight = CurrentLevel->GetLevelSettings()->CameraPosition.x + (CurrentLevel->GetLevelSettings()->CameraVisibleHeight * CurrentLevel->GetLevelSettings()->CameraVisibleRatio / 2);
 	 VisibleLeft = CurrentLevel->GetLevelSettings()->CameraPosition.x - (CurrentLevel->GetLevelSettings()->CameraVisibleHeight * CurrentLevel->GetLevelSettings()->CameraVisibleRatio / 2);
+	 AMat4x4 projectionMatrix = AMat4x4::Ortho(VisibleLeft, VisibleRight, VisibleBottom, VisibleTop, -100.0f, 100.0f); //it is camera view, corret version => (0.0f, VideoParams->Width, 0.0f, VideoParams->Height, -100.0f, 100.0f);
 	 {
 		for(auto& Object : CurrentLevel->GetLevelObjects())
 		{
@@ -105,10 +91,9 @@ void ARenderer::Render(AGame* Game)
 				//model.Rotate(m_rotation, glm::vec3(0.0f, 0.0f, 1.0f));
 				model = model.Scale({ lScale.x,lScale.y, 1.0f });
 
-				AMat4x4 projectionMatrix = AMat4x4::Ortho(VisibleLeft, VisibleRight, VisibleBottom, VisibleTop, -100.0f, 100.0f); // 0.0f, VideoParams->Width, 0.0f, VideoParams->Height, -100.0f, 100.0f);
 				gState.GetResourceManager()->GetShaderProgram("color")->SetMatrix4("modelMat", model);
 				gState.GetResourceManager()->GetShaderProgram("color")->SetMatrix4("projectionMat", projectionMatrix);
-				gState.GetResourceManager()->GetTexture("texture")->Bind();
+				gState.GetResourceManager()->GetTexture(Object->texture_name)->Bind();
 				glDrawArrays(GL_TRIANGLES, 0, 6);
 				glBindVertexArray(0);
 
@@ -139,7 +124,7 @@ bool ARenderer::GetVisible(AObject* Object)
 	bool bVisible = false;
 	AVector2 lPos = Object->Position;
 	AVector2 lScale = Object->Scale;
-	if((VisibleTop > lPos.y - lScale.y / 2) && (VisibleBottom <= lPos.y + lScale.y / 2) && (VisibleLeft <= lPos.x + lScale.x / 2) && (VisibleRight > lPos.x + lScale.x / 2))
+	if((VisibleTop > lPos.y - lScale.y / 2) && (VisibleBottom <= lPos.y + lScale.y / 2) && (VisibleLeft <= lPos.x + lScale.x / 2) && (VisibleRight > lPos.x - lScale.x / 2))
 	{
 		bVisible = true;
 	}

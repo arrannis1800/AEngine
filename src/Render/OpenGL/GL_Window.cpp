@@ -37,6 +37,8 @@ void AWindow::Init(AVideoParams* pVideoParams)
 	Log(ELogType::INFO, "OpenGL: %s\n", glGetString(GL_VERSION));
 
 	glClearColor(0, 0, 0, 1);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void AWindow::Finish()

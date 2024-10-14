@@ -4,12 +4,11 @@
 
 #include "MacrosLibrary.h"
 #include "Structs/AGState.h"
+#include "Render/Shape.h"
 
 AObject::AObject()
 {
 	bIsTickable = true;
-
-	form = EForm::Circle;
 	name = std::string("ExampleObject");
 }
 
@@ -17,6 +16,8 @@ void AObject::Init(const std::string& name)
 {
 	this->name += "_" + name;
 	Log(ELogType::INFO, "Object \"%s\" init success\n", this->name.c_str());
+	AShape circle = AShape::DrawCircle(150, ColorRGBA(0xb38df9ff));
+	texture_name = AShape::CreateTextureFromShape(circle);
 }
 
 void AObject::Tick()

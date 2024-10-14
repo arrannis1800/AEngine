@@ -18,6 +18,11 @@ struct ColorRGBA
 		return (r << 24) | (g << 16) | (b << 8) | a;
 	};
 
+	std::string toString()
+	{
+		return std::to_string(toUInt32());
+	}
+
 	uint8_t r;
 	uint8_t g;
 	uint8_t b;
