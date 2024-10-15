@@ -32,5 +32,4 @@
 *.app
 *.bat
 
-test.cpp
 build/

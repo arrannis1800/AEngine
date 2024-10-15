@@ -19,7 +19,7 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 
 set(ProjSources 
-    src/test.cpp
+    src/main.cpp
     src/Engine.cpp
     src/Level.cpp
     src/Object.cpp
