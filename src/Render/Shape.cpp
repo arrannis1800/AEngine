@@ -35,7 +35,7 @@ AShape AShape::DrawCircle(const int radius, ColorRGBA color)
 
 std::string AShape::CreateTextureFromShape(AShape& Shape)
 {
-	std::string texture_name = "*Cirle_r" + std::to_string(Shape.m_width) + "_c" + Shape.m_color.toString();
+	std::string texture_name = "*Cirle_" + std::to_string(Shape.m_width) +"x" + std::to_string(Shape.m_height)  + "_c" + Shape.m_color.toString();
 	if(!gState.GetResourceManager()->GetTexture(texture_name))
 		gState.GetResourceManager()->CreateTexture(texture_name, Shape.m_width, Shape.m_height, 4, Shape.m_pixels);
 	return texture_name;

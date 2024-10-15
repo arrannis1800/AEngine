@@ -17,7 +17,6 @@ void ARenderer::Init(AVideoParams* pVideoParams)
 	VideoParams = pVideoParams;
 	Window.Init(VideoParams);
 
-	
 	gState.GetResourceManager()->LoadShaderProgram("color", "resources/shaders/color.vert", "resources/shaders/color.frag")->Use();
 	gState.GetResourceManager()->GetShaderProgram("color")->SetInt("tex", 0);
 
@@ -41,65 +40,7 @@ void ARenderer::Render(AGame* Game)
 		{
 	 		if(GetVisible(Object))
 	 		{
-	 			AVector2 lPos = Object->Position;
-	 			AVector2 lScale = Object->Scale;
-				
-				GLuint m_vao;
-				GLuint m_vertexCoordsVBO;
-				GLuint m_textureCoordsVBO;
-				const GLfloat points[] =
-				{
-					1.f, 1.f,
-					1.f, 0.f,
-					0.f, 0.f,
-
-					0.f, 0.f,
-					0.f, 1.f,
-					1.f, 1.f,
-				};
-
-				const GLfloat texCoords[] =
-				{
-					1.0f, 1.0f,
-					1.0f, 0.0f,
-					0.0f, 0.0f,
-
-					0.0f, 0.0f,
-					0.0f, 1.0f,
-					1.0f, 1.0f,
-				};
-
-				glGenVertexArrays(1, &m_vao);
-				glBindVertexArray(m_vao);
-
-				glGenBuffers(1, &m_vertexCoordsVBO);
-				glBindBuffer(GL_ARRAY_BUFFER, m_vertexCoordsVBO);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(points), &points, GL_STATIC_DRAW);
-				glEnableVertexAttribArray(0);
-				glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
-
-
-				glGenBuffers(1, &m_textureCoordsVBO);
-				glBindBuffer(GL_ARRAY_BUFFER, m_textureCoordsVBO);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), &texCoords, GL_STATIC_DRAW);
-				glEnableVertexAttribArray(1);
-				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
-
-				glActiveTexture(GL_TEXTURE0);
-				AMat4x4 model(1.0f);
-				model = model.Translate({ -0.5f * lScale.x, -0.5f * lScale.y, 0.0f }).Translate({ lPos.x,lPos.y, 0.0f });
-				//model.Rotate(m_rotation, glm::vec3(0.0f, 0.0f, 1.0f));
-				model = model.Scale({ lScale.x,lScale.y, 1.0f });
-
-				gState.GetResourceManager()->GetShaderProgram("color")->SetMatrix4("modelMat", model);
-				gState.GetResourceManager()->GetShaderProgram("color")->SetMatrix4("projectionMat", projectionMatrix);
-				gState.GetResourceManager()->GetTexture(Object->texture_name)->Bind();
-				glDrawArrays(GL_TRIANGLES, 0, 6);
-				glBindVertexArray(0);
-
-				glDeleteBuffers(1, &m_vertexCoordsVBO);
-				glDeleteBuffers(1, &m_textureCoordsVBO);
-				glDeleteVertexArrays(1, &m_vao);
+				Object->Render(projectionMatrix);
 	 		}
 	 	}
 	 }

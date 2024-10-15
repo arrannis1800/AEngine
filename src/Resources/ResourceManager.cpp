@@ -81,6 +81,49 @@ std::shared_ptr<ATexture> AResourceManager::GetTexture(const std::string& textur
 	}
 }
 
+std::shared_ptr<ASprite> AResourceManager::LoadSprite(const std::string& spriteName, const std::string& textureName, const std::string& shaderName)
+{
+	auto shader = GetShaderProgram(shaderName);
+	if(!shader)
+	{
+		Log(ELogType::ERROR, "shader %s not found to create sprite\n", shaderName.c_str());
+		return nullptr;
+	}
+
+	auto texture = GetTexture(textureName);
+	if (!texture)
+	{
+		Log(ELogType::ERROR, "texture %s not found to create sprite\n", textureName.c_str());
+		return nullptr;
+	}
+
+	std::shared_ptr<ASprite> Sprite = std::make_shared<ASprite>(texture, shader);
+	if (!Sprite)
+	{
+		Log(ELogType::ERROR, "sprite %s not created\n", spriteName.c_str());
+		return nullptr;
+	}
+
+	m_sprites.emplace(shaderName, Sprite);
+
+	return Sprite;
+
+}
+
+std::shared_ptr<ASprite> AResourceManager::GetSprite(const std::string& spriteName)
+{
+	auto it = m_sprites.find(spriteName);
+	if (it != m_sprites.end())
+	{
+		return it->second;
+	}
+	else
+	{
+		Log(ELogType::ERROR, "sprite %s not found\n", spriteName.c_str());
+		return nullptr;
+	}
+}
+
 std::string AResourceManager::GetFileData(const std::string& filePath)
 {
 	std::ifstream f;
