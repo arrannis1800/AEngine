@@ -12,7 +12,7 @@ int main(int argc, char* args[])
 	size_t position = m_path.find_last_of('/\\');
 	gState.path = m_path.substr(0, position);
 	AGame game;
-	AEngine engine(&game);
+	AEngine engine(gState.GameController->Game);
 	AResourceManager resourceManager;
 	gState.ResourceManager = &resourceManager;
 	gState.engine = &engine;
