@@ -18,6 +18,8 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 
+option(AENGINE_BUILD "Build as executable" ON) 
+
 set(ProjSources 
     src/main.cpp
     src/Engine.cpp
@@ -42,9 +44,11 @@ if(OpenGL_FOUND)
 endif()
 
 # Add your source files and define the executable target
-add_executable(${ProjName}
-    ${ProjSources}
-)
+if(AENGINE_BUILD)
+    add_executable(${ProjName} src/example.cpp ${ProjSources})
+else()
+    add_library(${ProjName} ${ProjSources})
+endif()
 
 target_compile_definitions(${ProjName} PRIVATE OPENGL)
 
@@ -61,4 +65,5 @@ target_link_libraries(${ProjName} glad)
 
 add_custom_command(TARGET ${ProjName} POST_BUILD
 				   COMMAND ${CMAKE_COMMAND} -E copy_directory
-				   ${CMAKE_SOURCE_DIR}/resources $<TARGET_FILE_DIR:${ProjName}>/resources)
+				   ${CMAKE_CURRENT_SOURCE_DIR}/resources 
+                   ${CMAKE_BINARY_DIR}/${CMAKE_CFG_INTDIR}/resources)
