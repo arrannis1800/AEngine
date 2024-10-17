@@ -3,7 +3,12 @@
 
 class ACustomGame : public AGame
 {
-
+public:
+	ACustomGame()
+	{
+		ALevel* level = new ALevel;
+		Levels.push_back(level);
+	}
 } CustomGame;
 
 AGGame AGGameController =

@@ -9,8 +9,6 @@
 
 AGame::AGame()
 {
-	ALevel* level = new ALevel;
-	Levels.push_back(level);
 }
 
 void AGame::InitLevels()
