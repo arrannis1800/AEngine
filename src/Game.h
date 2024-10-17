@@ -17,7 +17,7 @@ public:
 	void Tick();
 
 	ALevel* GetCurrentLevel() const;
-private:
+protected:
 	std::vector<ALevel*> Levels;
 	ALevel* CurrentLevel;
 };
