@@ -14,9 +14,9 @@ public:
 	~AShape();
 private:
 	AShape() = delete;
-	AShape(EForm form, ColorRGBA color, int width, int height, unsigned char* pixels) : m_form(form), m_color(color), m_width(width), m_height(height), m_pixels(pixels) {}
+	AShape(EForm form, ColorRGBA color, int width, int height, unsigned char* pPixels) : m_form(form), m_color(color), m_width(width), m_height(height), m_pPixels(pPixels) {}
 
-	unsigned char* m_pixels;
+	unsigned char* m_pPixels;
 	int m_width;
 	int m_height;
 	ColorRGBA m_color;

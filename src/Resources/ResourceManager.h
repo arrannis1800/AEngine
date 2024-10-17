@@ -19,11 +19,11 @@ public:
 	std::shared_ptr<AShaderProgram> LoadShaderProgram(const std::string& shaderName, const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
 	std::shared_ptr<AShaderProgram> GetShaderProgram(const std::string& shaderName);
 
-	std::shared_ptr<ATexture> LoadTexture(const std::string& textureName, const std::string& texturePath);
-	std::shared_ptr<ATexture> CreateTexture(const std::string& textureName, int width, int height, int channels, const unsigned char* pixels);
-	std::shared_ptr<ATexture> GetTexture(const std::string& textureName);
+	std::shared_ptr<ATexture> LoadTexture(const std::string& m_textureName, const std::string& texturePath);
+	std::shared_ptr<ATexture> CreateTexture(const std::string& m_textureName, int width, int height, int channels, const unsigned char* pixels);
+	std::shared_ptr<ATexture> GetTexture(const std::string& m_textureName);
 
-	std::shared_ptr<ASprite> LoadSprite(const std::string& spriteName, const std::string& textureName, const std::string& shaderName);
+	std::shared_ptr<ASprite> LoadSprite(const std::string& spriteName, const std::string& m_textureName, const std::string& shaderName);
 	std::shared_ptr<ASprite> GetSprite(const std::string& spriteName);
 
 private:

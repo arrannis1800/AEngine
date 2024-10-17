@@ -13,9 +13,9 @@ AGame::AGame()
 
 void AGame::InitLevels()
 {
-	if(Levels.size() == 0)
+	if(m_levels.size() == 0)
 		AppTerminate();
-	for (auto& Level : Levels)
+	for (auto& Level : m_levels)
 	{
 		Level->Init();
 	}
@@ -26,7 +26,7 @@ void AGame::Init()
 {
 	InitLevels();
 
-	CurrentLevel = Levels[0];
+	m_pCurrentLevel = m_levels[0];
 
 	Log(ELogType::INFO, "Game init success\n");
 }
@@ -34,11 +34,11 @@ void AGame::Init()
 void AGame::Tick()
 {
 	// TODO: GameMode->Tick
-	CurrentLevel->Tick();
+	m_pCurrentLevel->Tick();
 }
 
 ALevel* AGame::GetCurrentLevel() const
 {
-	return CurrentLevel;
+	return m_pCurrentLevel;
 }
 

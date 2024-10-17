@@ -52,11 +52,11 @@ ASprite::~ASprite()
 	glDeleteVertexArrays(1, &m_vao);
 }
 
-void ASprite::Render(AMat4x4& ProjMat, AMat4x4& ModelMat)
+void ASprite::Render(AMat4x4& projMat, AMat4x4& modelMat)
 {
 	glBindVertexArray(m_vao);
-	m_pShaderProgram->SetMatrix4("modelMat", ModelMat);
-	m_pShaderProgram->SetMatrix4("projectionMat", ProjMat);
+	m_pShaderProgram->SetMatrix4("modelMat", modelMat);
+	m_pShaderProgram->SetMatrix4("projectionMat", projMat);
 
 	glActiveTexture(GL_TEXTURE0);
 	m_pTexture->Bind();

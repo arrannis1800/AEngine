@@ -4,30 +4,30 @@
 
 AEngine* gEngineInstance = nullptr;
 
-AEngine::AEngine(AGame* Game) : Game(Game)
+AEngine::AEngine(AGame* game) : game(game)
 {
 	gEngineInstance = this;
 };
 
 void AEngine::SetVideoParams()
 {
-	VideoParams = &config::VideoParams;
-	Log(ELogType::INFO, "Video Prarms set\n\tWidth = %d\n\tHeight = %d\n", VideoParams->Width, VideoParams->Height);
+	pVideoParams = &config::pVideoParams;
+	Log(ELogType::INFO, "Video Prarms set\n\tWidth = %d\n\tHeight = %d\n", pVideoParams->width, pVideoParams->height);
 }
 
 void AEngine::Init()
 {
 	{
-		Window = new ARenderer();
-		if (!Window)
+		window = new ARenderer();
+		if (!window)
 		{
 			AppTerminate();
 		}
 		SetVideoParams();
-		Window->Init(VideoParams);
+		window->Init(pVideoParams);
 	}
 
-	Game->Init();
+	game->Init();
 
 	CalculateDeltaTime();
 	
@@ -37,15 +37,15 @@ void AEngine::Init()
 void AEngine::Tick()
 {
 	CalculateDeltaTime();
-	Game->Tick();
-	Window->Render(Game);
+	game->Tick();
+	window->Render(game);
 }
 
 void AEngine::Run()
 {
 	bool quit = false;
 
-	while(!Window->ShouldClose())
+	while(!window->ShouldClose())
 	{
 		Tick();
 	}
@@ -53,9 +53,9 @@ void AEngine::Run()
 
 void AEngine::Finish()
 {
-	Window->finish();
-	if(Window)
-		delete Window;
+	window->finish();
+	if(window)
+		delete window;
 }
 
 void AEngine::Start()

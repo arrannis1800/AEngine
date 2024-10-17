@@ -9,37 +9,37 @@
 
 AObject::AObject()
 {
-	bIsTickable = true;
-	name = std::string("ExampleObject");
+	m_bIsTickable = true;
+	m_name = std::string("ExampleObject");
 }
 
 void AObject::Init(const std::string& name)
 {
-	this->name += "_" + name;
-	Log(ELogType::INFO, "Object \"%s\" init success\n", this->name.c_str());
+	this->m_name += "_" + name;
+	Log(ELogType::INFO, "Object \"%s\" init success\n", this->m_name.c_str());
 	AShape circle = AShape::DrawCircle(150, ColorRGBA(0xb38df9ff));
-	texture_name = AShape::CreateTextureFromShape(circle);
-	m_sprite = gState.GetResourceManager()->LoadSprite(this->name, texture_name, "color");
+	m_textureName = AShape::CreateTextureFromShape(circle);
+	m_sprite = gState.GetResourceManager()->LoadSprite(this->m_name, m_textureName, "color");
 }
 
 void AObject::Tick()
 {
 	if(gState.GetEngine())
 	{
-		Position.x += gState.GetEngine()->GetDeltaTime() * 10;
+		m_position.x += gState.GetEngine()->GetDeltaTime() * 10;
 	}
 }
 
 bool AObject::GetTickable()
 {
-	return bIsTickable;
+	return m_bIsTickable;
 }
 
-void AObject::Render(AMat4x4& ProjMat)
+void AObject::Render(AMat4x4& projMat)
 {
 	AMat4x4 modelMat(1.0f);
-	modelMat = modelMat.Translate({ -0.5f * Scale.x, -0.5f * Scale.y, 0.0f }).Translate({ Position.x,Position.y, 0.0f });
+	modelMat = modelMat.Translate({ -0.5f * m_scale.x, -0.5f * m_scale.y, 0.0f }).Translate({ m_position.x,m_position.y, 0.0f });
 	//model.Rotate(m_rotation, glm::vec3(0.0f, 0.0f, 1.0f));
-	modelMat = modelMat.Scale({ Scale.x,Scale.y, 1.0f });
-	m_sprite->Render(ProjMat, modelMat);
+	modelMat = modelMat.Scale({ m_scale.x,m_scale.y, 1.0f });
+	m_sprite->Render(projMat, modelMat);
 }

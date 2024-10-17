@@ -9,22 +9,22 @@ class AEngine;
 class AResourceManager;
 struct AGGame
 {
-	AGame* Game;
+	AGame* pGame;
 };
-extern AGGame AGGameController;
+extern AGGame gGameHandler;
 
 struct AGState
 {
 private:
 	friend int main(int, char**);
 	std::string path;
-	AEngine* engine = nullptr;
-	AResourceManager* ResourceManager = nullptr;
-	AGGame* GameController = &AGGameController;
+	AEngine* pEngine = nullptr;
+	AResourceManager* pResourceManager = nullptr;
+	AGGame* pGameHandler = &gGameHandler;
 public:
 	std::string& GetPath() { return path; };
-	AEngine* GetEngine() { return engine; };
-	AResourceManager* GetResourceManager() { return ResourceManager; };
+	AEngine* GetEngine() { return pEngine; };
+	AResourceManager* GetResourceManager() { return pResourceManager; };
 };
 
 inline AGState gState;

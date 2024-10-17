@@ -2,11 +2,10 @@
 #include "Engine.h"
 
 enum class ELogType;
-class AEngine;
 
 const char* LogTypeToString(ELogType logType);
 
-void Log(ELogType LogType, const char* Text, ...);
+void Log(ELogType LogType, const char* pText, ...);
 
 void AppTerminate();
 

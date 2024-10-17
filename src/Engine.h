@@ -12,7 +12,7 @@ private:
 	friend int main(int, char**);
 	friend struct AGState;
 	AEngine() = default; 
-	AEngine(AGame* Game);
+	AEngine(AGame* game);
 
 	void SetVideoParams();
 
@@ -34,9 +34,9 @@ public:
 	int GetFPS();
 
 private:
-	AGame* Game = nullptr;
-	ARenderer* Window = nullptr;
-	AVideoParams* VideoParams = nullptr;
+	AGame* game = nullptr;
+	ARenderer* window = nullptr;
+	AVideoParams* pVideoParams = nullptr;
 	float DeltaTime = 0;
 	std::chrono::time_point<std::chrono::steady_clock> LastTime;
 };

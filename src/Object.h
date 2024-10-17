@@ -21,16 +21,16 @@ public:
 	bool GetTickable();
 
 private:
-	void Render(AMat4x4& ProjMat);
-	AVector2 Position = AVector2(0.0f, 0.0f);
-	AVector2 Scale = AVector2(25.0f, 25.0f);
+	void Render(AMat4x4& projMat);
+	AVector2 m_position = AVector2(0.0f, 0.0f);
+	AVector2 m_scale = AVector2(25.0f, 25.0f);
 
-	std::string texture_name;
+	std::string m_textureName;
 	std::shared_ptr<ASprite> m_sprite;
 
-	bool bIsTickable;
+	bool m_bIsTickable;
 
-	std::string name;
+	std::string m_name;
 };
 
 #endif

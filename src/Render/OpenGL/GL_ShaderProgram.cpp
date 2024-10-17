@@ -90,8 +90,8 @@ bool AShaderProgram::CreateShader(EShaderType type, const std::string& shader)
 		break;
 	}
 	 
-	const char* code = shader.c_str();
-	glShaderSource(shaderId, 1, &code, nullptr);
+	const char* pCode = shader.c_str();
+	glShaderSource(shaderId, 1, &pCode, nullptr);
 	glCompileShader(shaderId);
 	if (!CheckShaderError(shaderId))
 		return false;

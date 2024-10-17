@@ -3,8 +3,8 @@
 
 struct AVideoParams
 {
-	int Width;
-	int Height;
+	int width;
+	int height;
 };
 
 #endif

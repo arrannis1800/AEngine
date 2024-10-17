@@ -9,21 +9,21 @@
 
 void ALevel::Init()
 {
-	if(!LevelSettings)
+	if(!m_pLevelSettings)
         AppTerminate();
 
     int i = 0;
-    for(AObject* Object : Objects)
+    for(AObject* object : objects)
     {
-    	std::string str = std::format("{}_{}", LevelSettings->name, std::to_string(i));
-    	Object->Init(str);
-    	if(Object->GetTickable())
+    	std::string name = std::format("{}_{}", m_pLevelSettings->name, std::to_string(i));
+    	object->Init(name);
+    	if(object->GetTickable())
     	{
-    		RefreshableObjects.push_back(Object);
+    		refreshableObjects.push_back(object);
     	}
     }
 
-	Log(ELogType::INFO, "Level \"%s\" init success\n", LevelSettings->name.c_str());
+	Log(ELogType::INFO, "Level \"%s\" init success\n", m_pLevelSettings->name.c_str());
 }
 
 void ALevel::Tick()
@@ -31,16 +31,16 @@ void ALevel::Tick()
 
 	// TODO: UpdateLevelSettings();
 	// TODO: Tick all Objects
-	for(AObject* Object : RefreshableObjects)
+	for(AObject* object : refreshableObjects)
     {
-    	Object->Tick();
+    	object->Tick();
     }
 	// TODO: Tick all Widgets
 	int red   = (uint8_t)(sin(position * 0.3) * 127 + 128);
 	int green = (uint8_t)(sin(position * 0.3 + 2 * M_PI / 3) * 127 + 128);
 	int blue  = (uint8_t)(sin(position * 0.3 + 4 * M_PI / 3) * 127 + 128);
 
-	LevelSettings->BackGroundColor = (red << 8*3) | (green << 8*2) | (blue << 8*1) | (0xff << 8*0);
+	m_pLevelSettings->backGroundColor = (red << 8*3) | (green << 8*2) | (blue << 8*1) | (0xff << 8*0);
 
 	if(gState.GetEngine())
 	{
@@ -50,10 +50,10 @@ void ALevel::Tick()
 
 ALevelSettings* ALevel::GetLevelSettings() const
 {
-	return LevelSettings;
+	return m_pLevelSettings;
 }
 
 const std::vector<AObject*>& ALevel::GetLevelObjects() const
 {
-	return Objects;
+	return objects;
 }

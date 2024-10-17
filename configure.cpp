@@ -44,13 +44,13 @@ bool generateEntry(std::string& file_name, std::string& folder_name)
     fprintf(pFile, "public:\n");
     fprintf(pFile, "    A%sGame()\n", folder_name.c_str());
     fprintf(pFile, "    {\n");
-    fprintf(pFile, "        // add Levels.push_back(your_level);\n");
+    fprintf(pFile, "        // add m_levels.push_back(your_level);\n");
     fprintf(pFile, "    }\n");
 
     fprintf(pFile, "} %sGame;\n\n", folder_name.c_str());
 
-    fprintf(pFile, "AGGame AGGameController = {\n");
-    fprintf(pFile, "    .Game = reinterpret_cast<AGame*>(&%sGame),\n", folder_name.c_str());
+    fprintf(pFile, "AGGame gGameHandler = {\n");
+    fprintf(pFile, "    .pGame = reinterpret_cast<AGame*>(&%sGame),\n", folder_name.c_str());
     fprintf(pFile, "};");
 
     fclose(pFile);

@@ -23,7 +23,7 @@ private:
 	uint32_t m_ID;
 	int m_width;
 	int m_height;
-	EColorMode m_ColorMode;
+	EColorMode m_colorMode;
 };
 
 #endif // !TEXTURE_H
