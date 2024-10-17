@@ -3,13 +3,13 @@
 
 struct GLFWwindow;
 
-void WindowSizeCallback(GLFWwindow* Window, int width, int height)
+void WindowSizeCallback(GLFWwindow* window, int width, int height)
 {
-	AWindow* pWindow = static_cast<AWindow*>(glfwGetWindowUserPointer(Window));
+	AWindow* pWindow = static_cast<AWindow*>(glfwGetWindowUserPointer(window));
 	AVideoParams* params = pWindow->GetVideoParams();
-	params->Height = height;
-	params->Width = width;
-	glViewport(0, 0, static_cast<GLsizei>(params->Width), static_cast<GLsizei>(params->Height));
+	params->height = height;
+	params->width = width;
+	glViewport(0, 0, static_cast<GLsizei>(params->width), static_cast<GLsizei>(params->height));
 }
 
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode)
@@ -20,9 +20,9 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 	}
 }
 
-void InitCallbacks(AWindow* Window)
+void InitCallbacks(AWindow* window)
 {
-	glfwSetWindowUserPointer(Window->GetWindow(), Window);
-	glfwSetWindowSizeCallback(Window->GetWindow(), WindowSizeCallback);
-	glfwSetKeyCallback(Window->GetWindow(), KeyCallback);
+	glfwSetWindowUserPointer(window->GetWindow(), window);
+	glfwSetWindowSizeCallback(window->GetWindow(), WindowSizeCallback);
+	glfwSetKeyCallback(window->GetWindow(), KeyCallback);
 }

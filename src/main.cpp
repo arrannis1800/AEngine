@@ -12,10 +12,10 @@ int main(int argc, char* args[])
 	size_t position = m_path.find_last_of('/\\');
 	gState.path = m_path.substr(0, position);
 	AGame game;
-	AEngine engine(gState.GameController->Game);
-	AResourceManager resourceManager;
-	gState.ResourceManager = &resourceManager;
-	gState.engine = &engine;
+	AEngine pEngine(gState.pGameHandler->pGame);
+	AResourceManager pResourceManager;
+	gState.pResourceManager = &pResourceManager;
+	gState.pEngine = &pEngine;
 	gState.GetEngine()->Start();
 
 	return 0;

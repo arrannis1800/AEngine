@@ -7,11 +7,11 @@ public:
 	ACustomGame()
 	{
 		ALevel* level = new ALevel;
-		Levels.push_back(level);
+		m_levels.push_back(level);
 	}
 } CustomGame;
 
-AGGame AGGameController =
+AGGame gGameHandler =
 {
-	.Game = reinterpret_cast<AGame*>(&CustomGame),
+	.pGame = reinterpret_cast<AGame*>(&CustomGame),
 };

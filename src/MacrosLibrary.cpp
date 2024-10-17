@@ -16,14 +16,14 @@ const char* LogTypeToString(ELogType logType) {
     }
 }
 
-void Log(ELogType LogType, const char* Text, ...)
+void Log(ELogType LogType, const char* pText, ...)
 {
 	printf("[%s] ", LogTypeToString(LogType));
 
     va_list args;
-    va_start(args, Text);
+    va_start(args, pText);
 
-    vprintf(Text, args);
+    vprintf(pText, args);
 
     va_end(args);
 }

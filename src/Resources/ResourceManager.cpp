@@ -42,16 +42,16 @@ std::shared_ptr<AShaderProgram> AResourceManager::GetShaderProgram(const std::st
 	}
 }
 
-std::shared_ptr<ATexture> AResourceManager::LoadTexture(const std::string& textureName, const std::string& texturePath)
+std::shared_ptr<ATexture> AResourceManager::LoadTexture(const std::string& m_textureName, const std::string& texturePath)
 {
 	return std::shared_ptr<ATexture>();
 }
 
-std::shared_ptr<ATexture> AResourceManager::CreateTexture(const std::string& textureName, int width, int height, int channels, const unsigned char* pixels)
+std::shared_ptr<ATexture> AResourceManager::CreateTexture(const std::string& m_textureName, int width, int height, int channels, const unsigned char* pixels)
 {
 	if (!pixels)
 	{
-		Log(ELogType::ERROR, "pixels for texture %s not provided\n", textureName.c_str());
+		Log(ELogType::ERROR, "pixels for texture %s not provided\n", m_textureName.c_str());
 		return nullptr;
 	}
 
@@ -59,29 +59,29 @@ std::shared_ptr<ATexture> AResourceManager::CreateTexture(const std::string& tex
 
 	if (!texture)
 	{
-		Log(ELogType::ERROR, "texture %s not created\n", textureName.c_str());
+		Log(ELogType::ERROR, "texture %s not created\n", m_textureName.c_str());
 		return nullptr;
 	}
-	m_textures.emplace(textureName, texture);
+	m_textures.emplace(m_textureName, texture);
 
 	return texture;
 }
 
-std::shared_ptr<ATexture> AResourceManager::GetTexture(const std::string& textureName)
+std::shared_ptr<ATexture> AResourceManager::GetTexture(const std::string& m_textureName)
 {
-	auto it = m_textures.find(textureName);
+	auto it = m_textures.find(m_textureName);
 	if (it != m_textures.end())
 	{
 		return it->second;
 	}
 	else
 	{
-		Log(ELogType::ERROR, "texture %s not found\n", textureName.c_str());
+		Log(ELogType::ERROR, "texture %s not found\n", m_textureName.c_str());
 		return nullptr;
 	}
 }
 
-std::shared_ptr<ASprite> AResourceManager::LoadSprite(const std::string& spriteName, const std::string& textureName, const std::string& shaderName)
+std::shared_ptr<ASprite> AResourceManager::LoadSprite(const std::string& spriteName, const std::string& m_textureName, const std::string& shaderName)
 {
 	auto shader = GetShaderProgram(shaderName);
 	if(!shader)
@@ -90,10 +90,10 @@ std::shared_ptr<ASprite> AResourceManager::LoadSprite(const std::string& spriteN
 		return nullptr;
 	}
 
-	auto texture = GetTexture(textureName);
+	auto texture = GetTexture(m_textureName);
 	if (!texture)
 	{
-		Log(ELogType::ERROR, "texture %s not found to create sprite\n", textureName.c_str());
+		Log(ELogType::ERROR, "texture %s not found to create sprite\n", m_textureName.c_str());
 		return nullptr;
 	}
 

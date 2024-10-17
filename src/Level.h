@@ -12,9 +12,9 @@ class ALevel
 public:
 	ALevel()
 	{
-		LevelSettings = &config::LevelSettings;
+		m_pLevelSettings = &config::m_pLevelSettings;
 		AObject* obj = new AObject;
-		Objects.push_back(obj);
+		objects.push_back(obj);
 	}
 
 	void Init();
@@ -26,9 +26,9 @@ public:
 	const std::vector<AObject*>& GetLevelObjects() const;
 private:
 	float position = 0;
-	ALevelSettings* LevelSettings;
-	std::vector<AObject*> Objects;
-	std::vector<AObject*> RefreshableObjects;
+	ALevelSettings* m_pLevelSettings;
+	std::vector<AObject*> objects;
+	std::vector<AObject*> refreshableObjects;
 	// std::vector<AWidget*> Widgets;
 };
 

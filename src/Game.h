@@ -18,8 +18,8 @@ public:
 
 	ALevel* GetCurrentLevel() const;
 protected:
-	std::vector<ALevel*> Levels;
-	ALevel* CurrentLevel;
+	std::vector<ALevel*> m_levels;
+	ALevel* m_pCurrentLevel;
 };
 
 #endif

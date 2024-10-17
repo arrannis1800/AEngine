@@ -3,6 +3,6 @@
 
 class AWindow;
 
-void InitCallbacks(AWindow* Window);
+void InitCallbacks(AWindow* window);
 
 #endif // !CALLBACKS_H

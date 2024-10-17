@@ -14,33 +14,33 @@
 
 void ARenderer::Init(AVideoParams* pVideoParams)
 {
-	VideoParams = pVideoParams;
-	Window.Init(VideoParams);
+	m_pVideoParams = pVideoParams;
+	window.Init(m_pVideoParams);
 
 	gState.GetResourceManager()->LoadShaderProgram("color", "resources/shaders/color.vert", "resources/shaders/color.frag")->Use();
 	gState.GetResourceManager()->GetShaderProgram("color")->SetInt("tex", 0);
 
 }
 
-void ARenderer::Render(AGame* Game)
+void ARenderer::Render(AGame* game)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	int w, h;
-	Window.GetWindowSize(&w, &h);
-	 ALevel* CurrentLevel = Game->GetCurrentLevel();
-	 CurrentLevel->GetLevelSettings()->CameraVisibleRatio = static_cast<float>(w)/h;
-	 float LevelToScreenRatio = h / CurrentLevel->GetLevelSettings()->CameraVisibleHeight;
-	 VisibleTop = CurrentLevel->GetLevelSettings()->CameraPosition.y + (CurrentLevel->GetLevelSettings()->CameraVisibleHeight / 2);
-	 VisibleBottom = CurrentLevel->GetLevelSettings()->CameraPosition.y - (CurrentLevel->GetLevelSettings()->CameraVisibleHeight / 2);
-	 VisibleRight = CurrentLevel->GetLevelSettings()->CameraPosition.x + (CurrentLevel->GetLevelSettings()->CameraVisibleHeight * CurrentLevel->GetLevelSettings()->CameraVisibleRatio / 2);
-	 VisibleLeft = CurrentLevel->GetLevelSettings()->CameraPosition.x - (CurrentLevel->GetLevelSettings()->CameraVisibleHeight * CurrentLevel->GetLevelSettings()->CameraVisibleRatio / 2);
-	 AMat4x4 projectionMatrix = AMat4x4::Ortho(VisibleLeft, VisibleRight, VisibleBottom, VisibleTop, -100.0f, 100.0f); //it is camera view, corret version => (0.0f, VideoParams->Width, 0.0f, VideoParams->Height, -100.0f, 100.0f);
+	window.GetWindowSize(&w, &h);
+	 ALevel* m_pCurrentLevel = game->GetCurrentLevel();
+	 m_pCurrentLevel->GetLevelSettings()->cameraVisibleRatio = static_cast<float>(w)/h;
+	 float LevelToScreenRatio = h / m_pCurrentLevel->GetLevelSettings()->cameraVisibleHeight;
+	 visibleTop = m_pCurrentLevel->GetLevelSettings()->cameraPosition.y + (m_pCurrentLevel->GetLevelSettings()->cameraVisibleHeight / 2);
+	 visibleBottom = m_pCurrentLevel->GetLevelSettings()->cameraPosition.y - (m_pCurrentLevel->GetLevelSettings()->cameraVisibleHeight / 2);
+	 visibleRight = m_pCurrentLevel->GetLevelSettings()->cameraPosition.x + (m_pCurrentLevel->GetLevelSettings()->cameraVisibleHeight * m_pCurrentLevel->GetLevelSettings()->cameraVisibleRatio / 2);
+	 visibleLeft = m_pCurrentLevel->GetLevelSettings()->cameraPosition.x - (m_pCurrentLevel->GetLevelSettings()->cameraVisibleHeight * m_pCurrentLevel->GetLevelSettings()->cameraVisibleRatio / 2);
+	 AMat4x4 projectionMatrix = AMat4x4::Ortho(visibleLeft, visibleRight, visibleBottom, visibleTop, -100.0f, 100.0f); //it is camera view, corret version => (0.0f, VideoParams->Width, 0.0f, VideoParams->Height, -100.0f, 100.0f);
 	 {
-		for(auto& Object : CurrentLevel->GetLevelObjects())
+		for(auto& object : m_pCurrentLevel->GetLevelObjects())
 		{
-	 		if(GetVisible(Object))
+	 		if(GetVisible(object))
 	 		{
-				Object->Render(projectionMatrix);
+				object->Render(projectionMatrix);
 	 		}
 	 	}
 	 }
@@ -48,24 +48,24 @@ void ARenderer::Render(AGame* Game)
 
 	if(gState.GetEngine())
 	{
-		glfwSetWindowTitle(Window.GetWindow(), std::to_string(gState.GetEngine()->GetFPS()).c_str());
+		glfwSetWindowTitle(window.GetWindow(), std::to_string(gState.GetEngine()->GetFPS()).c_str());
 	}
 
-	glfwSwapBuffers(Window.GetWindow());
+	glfwSwapBuffers(window.GetWindow());
 	glfwPollEvents();
 }
 
 bool ARenderer::ShouldClose()
 {
-	return Window.ShouldClose(); 
+	return window.ShouldClose(); 
 }
 
-bool ARenderer::GetVisible(AObject* Object)
+bool ARenderer::GetVisible(AObject* pObject)
 {
 	bool bVisible = false;
-	AVector2 lPos = Object->Position;
-	AVector2 lScale = Object->Scale;
-	if((VisibleTop > lPos.y - lScale.y / 2) && (VisibleBottom <= lPos.y + lScale.y / 2) && (VisibleLeft <= lPos.x + lScale.x / 2) && (VisibleRight > lPos.x - lScale.x / 2))
+	AVector2 lPos = pObject->m_position;
+	AVector2 lScale = pObject->m_scale;
+	if((visibleTop > lPos.y - lScale.y / 2) && (visibleBottom <= lPos.y + lScale.y / 2) && (visibleLeft <= lPos.x + lScale.x / 2) && (visibleRight > lPos.x - lScale.x / 2))
 	{
 		bVisible = true;
 	}
@@ -74,8 +74,7 @@ bool ARenderer::GetVisible(AObject* Object)
 
 void ARenderer::finish()
 {
-	glDeleteProgram(shaderprogram);
-	Window.Finish();
+	window.Finish();
 }
 
 

@@ -11,24 +11,23 @@ class ARenderer
 public:
 	void Init(AVideoParams* pVideoParams);
 
-	void Render(AGame* Game);
+	void Render(AGame* game);
 
 	bool ShouldClose();
 
 	void finish();
 
-	bool GetVisible(AObject* Object);
+	bool GetVisible(AObject* pObject);
 
 private:
-	AWindow Window;
-	GLuint shaderprogram;
+	AWindow window;
 
-	AVideoParams* VideoParams;
+	AVideoParams* m_pVideoParams;
 
-	float VisibleTop;
-	float VisibleBottom;
-	float VisibleRight;
-	float VisibleLeft;
+	float visibleTop;
+	float visibleBottom;
+	float visibleRight;
+	float visibleLeft;
 };
 
 

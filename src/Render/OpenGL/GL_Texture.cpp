@@ -4,21 +4,21 @@
 
 ATexture::ATexture(int width, int height, const unsigned char* pixels, int channels) : m_width(width), m_height(height)
 {
-	GLenum m_gl_mode;
+	GLenum m_glMode;
 	switch (channels)
 	{
 	case 3:
-		m_ColorMode = EColorMode::RGB; 
-		m_gl_mode = GL_RGB;
+		m_colorMode = EColorMode::RGB; 
+		m_glMode = GL_RGB;
 		break;
 	case 4:
-		m_ColorMode = EColorMode::RGBA;
-		m_gl_mode = GL_RGBA;
+		m_colorMode = EColorMode::RGBA;
+		m_glMode = GL_RGBA;
 		break;
 	default:
 		Log(ELogType::ERROR,"unknown format channels % d\n", channels);
-		m_ColorMode = EColorMode::RGB;
-		m_gl_mode = GL_RGB;
+		m_colorMode = EColorMode::RGB;
+		m_glMode = GL_RGB;
 		break;
 	}
 
@@ -26,7 +26,7 @@ ATexture::ATexture(int width, int height, const unsigned char* pixels, int chann
 	glActiveTexture(GL_TEXTURE0);
 
 	glBindTexture(GL_TEXTURE_2D, m_ID);
-	glTexImage2D(GL_TEXTURE_2D, 0, m_gl_mode, m_width, m_height, 0, m_gl_mode, GL_UNSIGNED_BYTE, pixels);
+	glTexImage2D(GL_TEXTURE_2D, 0, m_glMode, m_width, m_height, 0, m_glMode, GL_UNSIGNED_BYTE, pixels);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -47,12 +47,12 @@ ATexture::ATexture(ATexture&& texture) noexcept
 	m_ID = texture.m_ID;
 	m_height = texture.m_height;
 	m_width = texture.m_width;
-	m_ColorMode = texture.m_ColorMode;
+	m_colorMode = texture.m_colorMode;
 
 	texture.m_ID = 0;
 	texture.m_height = 0;
 	texture.m_width = 0;
-	texture.m_ColorMode = EColorMode::NONE;
+	texture.m_colorMode = EColorMode::NONE;
 }
 
 ATexture& ATexture::operator=(ATexture&& texture) noexcept
@@ -60,12 +60,12 @@ ATexture& ATexture::operator=(ATexture&& texture) noexcept
 	m_ID = texture.m_ID;
 	m_height = texture.m_height;
 	m_width = texture.m_width;
-	m_ColorMode = texture.m_ColorMode;
+	m_colorMode = texture.m_colorMode;
 
 	texture.m_ID = 0;
 	texture.m_height = 0;
 	texture.m_width = 0;
-	texture.m_ColorMode = EColorMode::NONE;
+	texture.m_colorMode = EColorMode::NONE;
 
 	return *this;
 }

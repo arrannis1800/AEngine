@@ -8,13 +8,13 @@
 
 struct ALevelSettings
 {
-	float Height;
-	float Width;
-	float CameraVisibleHeight = Height;
-	float CameraVisibleRatio = 16.0f / 9.0f;
-	AVector2 CameraPosition;
+	float height;
+	float width;
+	float cameraVisibleHeight = height;
+	float cameraVisibleRatio = 16.0f / 9.0f;
+	AVector2 cameraPosition;
 	std::string name = "Test";
-	uint32_t BackGroundColor;
+	uint32_t backGroundColor;
 };
 
 #endif

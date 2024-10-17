@@ -16,7 +16,7 @@ void AWindow::Init(AVideoParams* pVideoParams)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 
-	window = glfwCreateWindow(videoParams->Width, videoParams->Height, "OpenGLTest", NULL, NULL);
+	window = glfwCreateWindow(videoParams->width, videoParams->height, "OpenGLTest", NULL, NULL);
 	if (!window)
 	{
 		Log(ELogType::ERROR, "glfwCreateWindow error\n");
