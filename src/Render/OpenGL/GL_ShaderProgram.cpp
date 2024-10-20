@@ -23,7 +23,7 @@ AShaderProgram::AShaderProgram(const std::string& vertexShader, const std::strin
 	{
 		char infoLog[512];
 		glGetProgramInfoLog(m_ID, 512, nullptr, infoLog);
-		Log(ELogType::ERROR, "SHADER: %s\n", infoLog);
+		Log(ELogType::LT_ERROR, "SHADER: %s\n", infoLog);
 		AppTerminate();
 	}
 	else
@@ -110,7 +110,7 @@ bool AShaderProgram::CheckShaderError(uint32_t shader)
 	{
 		char infoLog[512];
 		glGetShaderInfoLog(shader, 512, nullptr, infoLog);
-		Log(ELogType::ERROR, "SHADER: %s\n", infoLog);
+		Log(ELogType::LT_ERROR, "SHADER: %s\n", infoLog);
 		return false;
 	}
 	return true;

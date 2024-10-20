@@ -12,7 +12,7 @@ AEngine::AEngine(AGame* game) : game(game)
 void AEngine::SetVideoParams()
 {
 	pVideoParams = &config::pVideoParams;
-	Log(ELogType::INFO, "Video Prarms set\n\tWidth = %d\n\tHeight = %d\n", pVideoParams->width, pVideoParams->height);
+	Log(ELogType::LT_INFO, "Video Prarms set\n\tWidth = %d\n\tHeight = %d\n", pVideoParams->width, pVideoParams->height);
 }
 
 void AEngine::Init()
@@ -31,7 +31,7 @@ void AEngine::Init()
 
 	CalculateDeltaTime();
 	
-	Log(ELogType::INFO, "Engine init success\n");
+	Log(ELogType::LT_INFO, "Engine init success\n");
 }
 
 void AEngine::Tick()

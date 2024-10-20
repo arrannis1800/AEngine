@@ -23,7 +23,7 @@ void ALevel::Init()
     	}
     }
 
-	Log(ELogType::INFO, "Level \"%s\" init success\n", m_pLevelSettings->name.c_str());
+	Log(ELogType::LT_INFO, "Level \"%s\" init success\n", m_pLevelSettings->name.c_str());
 }
 
 void ALevel::Tick()

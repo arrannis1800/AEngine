@@ -19,7 +19,7 @@ void AGame::InitLevels()
 	{
 		Level->Init();
 	}
-	Log(ELogType::INFO, "All levels init success\n");
+	Log(ELogType::LT_INFO, "All levels init success\n");
 }
 
 void AGame::Init()
@@ -28,7 +28,7 @@ void AGame::Init()
 
 	m_pCurrentLevel = m_levels[0];
 
-	Log(ELogType::INFO, "Game init success\n");
+	Log(ELogType::LT_INFO, "Game init success\n");
 }
 
 void AGame::Tick()

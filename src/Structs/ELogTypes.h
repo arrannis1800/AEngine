@@ -3,9 +3,9 @@
 
 enum class ELogType
 {
-	INFO,
-	WARNING,
-	ERROR,
+	LT_INFO,
+	LT_WARNING,
+	LT_ERROR,
 };
 
 #endif

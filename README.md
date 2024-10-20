@@ -4,7 +4,7 @@
 A small project to understand more clearly how game engines work
 This is functional code for game development without a graphic editor
 
-For now, it works on Windows (but it should also work on Linux and MacOS because of GLFW) and uses OpenGL 3 as a graphic API
+For now, it works on Windows and uses OpenGL 3 as a graphic API
 
 ## How to use
 
