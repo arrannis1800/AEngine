@@ -9,9 +9,9 @@
 
 const char* LogTypeToString(ELogType logType) {
     switch (logType) {
-        case ELogType::INFO: return "INFO";
-        case ELogType::WARNING: return "WARNING";
-        case ELogType::ERROR: return "ERROR";
+        case ELogType::LT_INFO: return "INFO";
+        case ELogType::LT_WARNING: return "WARNING";
+        case ELogType::LT_ERROR: return "ERROR";
         default: return "UNKNOWN";
     }
 }

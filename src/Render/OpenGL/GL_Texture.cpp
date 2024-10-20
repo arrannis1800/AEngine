@@ -16,7 +16,7 @@ ATexture::ATexture(int width, int height, const unsigned char* pixels, int chann
 		m_glMode = GL_RGBA;
 		break;
 	default:
-		Log(ELogType::ERROR,"unknown format channels % d\n", channels);
+		Log(ELogType::LT_ERROR,"unknown format channels % d\n", channels);
 		m_colorMode = EColorMode::RGB;
 		m_glMode = GL_RGB;
 		break;

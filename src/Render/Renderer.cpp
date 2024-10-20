@@ -48,11 +48,10 @@ void ARenderer::Render(AGame* game)
 
 	if(gState.GetEngine())
 	{
-		glfwSetWindowTitle(window.GetWindow(), std::to_string(gState.GetEngine()->GetFPS()).c_str());
+		window.SetWindowName(std::to_string(gState.GetEngine()->GetFPS()).c_str());
 	}
 
-	glfwSwapBuffers(window.GetWindow());
-	glfwPollEvents();
+	window.Tick();
 }
 
 bool ARenderer::ShouldClose()
