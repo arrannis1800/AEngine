@@ -27,7 +27,14 @@ public:
 		AObject::Tick();
 		if (gState.GetEngine())
 		{
-			m_position.x += gState.GetEngine()->GetDeltaTime() * 10;
+			if (gState.GetEngine()->GetCallback()->GetKeyState(EKey::D).bPressed)
+				m_position.x += gState.GetEngine()->GetDeltaTime() * 20;
+			if (gState.GetEngine()->GetCallback()->GetKeyState(EKey::A).bPressed)
+				m_position.x -= gState.GetEngine()->GetDeltaTime() * 20;
+			if (gState.GetEngine()->GetCallback()->GetKeyState(EKey::W).bPressed)
+				m_position.y += gState.GetEngine()->GetDeltaTime() * 20;
+			if (gState.GetEngine()->GetCallback()->GetKeyState(EKey::S).bPressed)
+				m_position.y -= gState.GetEngine()->GetDeltaTime() * 20;
 		}
 	}
 };

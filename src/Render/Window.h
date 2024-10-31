@@ -10,6 +10,7 @@ struct SWindow;
 #endif // OPENGL
 
 #include "Structs/AVideoParams.h"
+#include "Structs/EKeys.h"
 
 
 
@@ -23,6 +24,7 @@ public:
 	void GetWindowSize(int* width, int* height);
 	void SetWindowName(const char* winName);
 	AVideoParams* GetVideoParams();
+	void KeyUpdate(EKey key, bool bPressed);
 private:
 	void SetWindow();
 	void DeleteWindow();

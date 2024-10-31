@@ -3,6 +3,7 @@
 
 #include "Render/Window.h"
 #include "MacrosLibrary.h"
+#include "Structs/AGState.h"
 
 struct SWindow
 {
@@ -11,18 +12,40 @@ struct SWindow
 	HGLRC renderContext;
 };
 
+EKey MapKey(WPARAM wParam)
+{
+	switch (wParam)
+	{
+	case 0x57: return W;
+	case 0x41: return A;
+	case 0x53: return S;
+	case 0x44: return D;
+	case 0x1b: return Esc;
+	default: break;
+	}
+}
+
 bool shouldClose = false;
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+	AWindow* pThis = reinterpret_cast<AWindow*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 	switch (uMsg) {
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		shouldClose = true;
 		return 0;
+	case WM_KEYDOWN:
+		pThis->KeyUpdate(MapKey(wParam), true);
+		return 0;
+	case WM_KEYUP:
+		pThis->KeyUpdate(MapKey(wParam), false);
+		return 0;
 	default:
 		return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
 }
+
+
 
 void AWindow::Init(AVideoParams* pVideoParams)
 {
@@ -50,7 +73,7 @@ void AWindow::Init(AVideoParams* pVideoParams)
 		NULL,                           // Parent window
 		NULL,                           // Menu
 		GetModuleHandle(NULL),          // Instance handle
-		NULL                            // Additional application data
+		this                            // Additional application data
 	);
 
 	if (window->window == NULL) {
@@ -87,7 +110,7 @@ void AWindow::Init(AVideoParams* pVideoParams)
 	glClearColor(0, 0, 0, 1);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+	SetWindowLongPtr(window->window, GWLP_USERDATA, (LONG_PTR)this);
 	ShowWindow(window->window, SW_SHOW);
 }
 
@@ -137,6 +160,11 @@ void AWindow::SetWindowName(const char* winName)
 AVideoParams* AWindow::GetVideoParams()
 {
 	return videoParams;
+}
+
+void AWindow::KeyUpdate(EKey key, bool bPressed)
+{
+	gState.GetEngine()->GetCallback()->UpdateKeyState(key, bPressed);
 }
 
 void AWindow::SetWindow()

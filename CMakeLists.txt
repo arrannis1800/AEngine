@@ -21,6 +21,7 @@ set(ProjSources
     src/Level.cpp
     src/Object.cpp
     src/MacrosLibrary.cpp
+    src/Callbacks.cpp
     src/Render/Renderer.cpp
     src/Game.cpp
     src/Resources/ResourceManager.cpp
