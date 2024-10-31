@@ -26,12 +26,12 @@ void AEngine::Init()
 		SetVideoParams();
 		pWindow->Init(pVideoParams);
 	}
-
-	pGame->Init();
 	{
 		pCallback = new ACallback();
 		pCallback->InitKeys();
 	}
+
+	pGame->Init();
 
 	CalculateDeltaTime();
 	

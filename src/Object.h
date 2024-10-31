@@ -22,6 +22,8 @@ public:
 
 	bool GetTickable();
 
+	AVector2 GetPostiton();
+	void SetPoistion(AVector2 position);
 private:
 	void Render(AMat4x4& projMat);
 protected:

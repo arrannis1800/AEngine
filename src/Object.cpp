@@ -29,6 +29,16 @@ bool AObject::GetTickable()
 	return m_bIsTickable;
 }
 
+AVector2 AObject::GetPostiton()
+{
+	return m_position;
+}
+
+void AObject::SetPoistion(AVector2 position)
+{
+	m_position = position;
+}
+
 void AObject::Render(AMat4x4& projMat)
 {
 	AMat4x4 modelMat(1.0f);

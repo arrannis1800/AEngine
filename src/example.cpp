@@ -9,7 +9,7 @@ class ACustomObject : public AObject
 public:
 	ACustomObject()
 	{
-		m_bIsTickable = true;
+		m_bIsTickable = false;
 		m_name = std::string("ExampleObject");
 	}
 
@@ -20,23 +20,36 @@ public:
 		AShape circle = AShape::DrawCircle(150, ColorRGBA(0xb38df9ff));
 		m_textureName = AShape::CreateTextureFromShape(circle);
 		m_sprite = gState.GetResourceManager()->LoadSprite(this->m_name, m_textureName, "color");
+
+		gState.GetEngine()->GetCallback()->AddCallback(EKey::W, PASS_FUNCTION(MoveUp));
+		gState.GetEngine()->GetCallback()->AddCallback(EKey::S, PASS_FUNCTION(MoveDown));
+		gState.GetEngine()->GetCallback()->AddCallback(EKey::A, PASS_FUNCTION(MoveLeft));
+		gState.GetEngine()->GetCallback()->AddCallback(EKey::D, PASS_FUNCTION(MoveRight));
 	}
 
 	void Tick()
 	{
 		AObject::Tick();
-		if (gState.GetEngine())
-		{
-			if (gState.GetEngine()->GetCallback()->GetKeyState(EKey::D).bPressed)
-				m_position.x += gState.GetEngine()->GetDeltaTime() * 20;
-			if (gState.GetEngine()->GetCallback()->GetKeyState(EKey::A).bPressed)
-				m_position.x -= gState.GetEngine()->GetDeltaTime() * 20;
-			if (gState.GetEngine()->GetCallback()->GetKeyState(EKey::W).bPressed)
-				m_position.y += gState.GetEngine()->GetDeltaTime() * 20;
-			if (gState.GetEngine()->GetCallback()->GetKeyState(EKey::S).bPressed)
-				m_position.y -= gState.GetEngine()->GetDeltaTime() * 20;
-		}
 	}
+
+	void MoveUp()
+	{
+		m_position.y += gState.GetEngine()->GetDeltaTime() * velocity;
+	}
+	void MoveDown()
+	{
+		m_position.y -= gState.GetEngine()->GetDeltaTime() * velocity;
+	}
+	void MoveLeft()
+	{
+		m_position.x -= gState.GetEngine()->GetDeltaTime() * velocity;
+	}
+	void MoveRight()
+	{
+		m_position.x += gState.GetEngine()->GetDeltaTime() * velocity;
+	}
+private:
+	float velocity = 20;
 };
 
 class ACustomLevel : public ALevel
@@ -46,6 +59,9 @@ public:
 	{
 		AObject* obj = new ACustomObject;
 		m_objects.push_back(obj);
+		AObject* obj1 = new ACustomObject;
+		obj1->SetPoistion({20,20});
+		m_objects.push_back(obj1);
 	}
 };
 

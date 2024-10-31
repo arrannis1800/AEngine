@@ -11,7 +11,6 @@ sKeyState& ACallback::GetKeyState(EKey key)
 	else
 	{
 		Log(ELogType::LT_ERROR, "KeyState didn't find: %s\n", GetKeyName(key).c_str());
-		//return sKeyState();
 	}
 }
 
@@ -23,11 +22,9 @@ void ACallback::UpdateKeyState(EKey key, bool bPressed)
 		auto& keyState = it->second;
 		if (bPressed && !keyState.bPressed)
 		{
-			keyState = {
-				.bPressed = true,
-				.bTriggerd = true,
-				.duration = 0.0f,
-			};
+			keyState.bPressed = true;
+			keyState.bTriggerd = true;
+			keyState.duration = 0.0f;
 		}
 		else if (!bPressed && keyState.bPressed)
 		{
@@ -39,6 +36,11 @@ void ACallback::UpdateKeyState(EKey key, bool bPressed)
 	{
 		Log(ELogType::LT_ERROR, "KeyState didn't find: %s\n", GetKeyName(key).c_str());
 	}
+}
+
+void ACallback::AddCallback(EKey key, std::function<void()> func, ...)
+{
+	GetKeyState(key).functions.push_back(func);
 }
 
 void ACallback::InitKeys()
@@ -53,11 +55,17 @@ void ACallback::Tick(float DeltaTime)
 {
 	for (auto& pair : m_keys)
 	{
-		if (pair.second.bTriggerd)
+		if (pair.second.bPressed)
+		{
 			pair.second.duration += DeltaTime;
-		else
-			pair.second.duration = 0;
-	}
+			pair.second.bTriggerd = false;
+			for (auto& func : pair.second.functions)
+			{
+				func();
+			}
+		}
+		}
+		
 }
 
 std::string ACallback::GetKeyName(EKey key)
@@ -73,5 +81,4 @@ std::string ACallback::GetKeyName(EKey key)
 	case AllKeys: return "ERROR_ALL_KEYS";
 	default: return "UNKNOWN";
 	}
-	return std::string();
 }
