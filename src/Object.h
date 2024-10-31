@@ -14,14 +14,17 @@ class AObject
 public:
 	AObject();
 
-	void Init(const std::string& name);
+	virtual ~AObject() = default;
 
-	void Tick();
+	virtual void Init(const std::string& name);
+
+	virtual void Tick();
 
 	bool GetTickable();
 
 private:
 	void Render(AMat4x4& projMat);
+protected:
 	AVector2 m_position = AVector2(0.0f, 0.0f);
 	AVector2 m_scale = AVector2(25.0f, 25.0f);
 

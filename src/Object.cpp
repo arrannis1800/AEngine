@@ -17,17 +17,11 @@ void AObject::Init(const std::string& name)
 {
 	this->m_name += "_" + name;
 	Log(ELogType::LT_INFO, "Object \"%s\" init success\n", this->m_name.c_str());
-	AShape circle = AShape::DrawCircle(150, ColorRGBA(0xb38df9ff));
-	m_textureName = AShape::CreateTextureFromShape(circle);
-	m_sprite = gState.GetResourceManager()->LoadSprite(this->m_name, m_textureName, "color");
 }
 
 void AObject::Tick()
 {
-	if(gState.GetEngine())
-	{
-		m_position.x += gState.GetEngine()->GetDeltaTime() * 10;
-	}
+
 }
 
 bool AObject::GetTickable()

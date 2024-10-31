@@ -10,11 +10,13 @@ class AGame
 public:
 	AGame();
 
+	virtual ~AGame() = default;
+
 	void InitLevels();
 
-	void Init();
+	virtual void Init();
 
-	void Tick();
+	virtual void Tick();
 
 	ALevel* GetCurrentLevel() const;
 protected:

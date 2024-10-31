@@ -13,13 +13,13 @@ public:
 	ALevel()
 	{
 		m_pLevelSettings = &config::m_pLevelSettings;
-		AObject* obj = new AObject;
-		objects.push_back(obj);
+		
 	}
+	virtual ~ALevel() = default;
 
-	void Init();
+	virtual void Init();
 
-	void Tick();
+	virtual void Tick();
 
 	ALevelSettings* GetLevelSettings() const;
 
@@ -27,8 +27,9 @@ public:
 private:
 	float position = 0;
 	ALevelSettings* m_pLevelSettings;
-	std::vector<AObject*> objects;
-	std::vector<AObject*> refreshableObjects;
+protected:
+	std::vector<AObject*> m_objects;
+	std::vector<AObject*> m_refreshableObjects;
 	// std::vector<AWidget*> Widgets;
 };
 
