@@ -9,16 +9,16 @@
 
 const char* LogTypeToString(ELogType logType) {
     switch (logType) {
-        case ELogType::LT_INFO: return "INFO";
-        case ELogType::LT_WARNING: return "WARNING";
-        case ELogType::LT_ERROR: return "ERROR";
-        default: return "UNKNOWN";
+        case ELogType::LT_INFO: return "\033[0m[ INFO ] ";
+        case ELogType::LT_WARNING: return "\033[33m[ WARNING ] ";
+        case ELogType::LT_ERROR: return "\033[31m[ ERROR ] ";
+        default: return "\033[0mUNKNOWN";
     }
 }
 
 void Log(ELogType LogType, const char* pText, ...)
 {
-	printf("[%s] ", LogTypeToString(LogType));
+	printf("%s", LogTypeToString(LogType));
 
     va_list args;
     va_start(args, pText);
