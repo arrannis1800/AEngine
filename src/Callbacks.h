@@ -6,7 +6,7 @@
 
 #include "Structs/EKeys.h"
 
-#define PASS_FUNCTION(func, ...) [=]() { func(__VA_ARGS__); }
+#define CALLBACK_FUNCTION(func, ...) [=]() { func(__VA_ARGS__); }
 
 class ACallback
 {

@@ -21,10 +21,10 @@ public:
 		m_textureName = AShape::CreateTextureFromShape(circle);
 		m_sprite = gState.GetResourceManager()->LoadSprite(this->m_name, m_textureName, "color");
 
-		gState.GetEngine()->GetCallback()->AddCallback(EKey::W, PASS_FUNCTION(MoveUp));
-		gState.GetEngine()->GetCallback()->AddCallback(EKey::S, PASS_FUNCTION(MoveDown));
-		gState.GetEngine()->GetCallback()->AddCallback(EKey::A, PASS_FUNCTION(MoveLeft));
-		gState.GetEngine()->GetCallback()->AddCallback(EKey::D, PASS_FUNCTION(MoveRight));
+		gState.GetEngine()->GetCallback()->AddCallback(EKey::W, CALLBACK_FUNCTION(MoveUp));
+		gState.GetEngine()->GetCallback()->AddCallback(EKey::S, CALLBACK_FUNCTION(MoveDown));
+		gState.GetEngine()->GetCallback()->AddCallback(EKey::A, CALLBACK_FUNCTION(MoveLeft));
+		gState.GetEngine()->GetCallback()->AddCallback(EKey::D, CALLBACK_FUNCTION(MoveRight));
 	}
 
 	void Tick()
