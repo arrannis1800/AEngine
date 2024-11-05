@@ -4,7 +4,7 @@
 
 AEngine* gEngineInstance = nullptr;
 
-AEngine::AEngine(AGame* game) : game(game)
+AEngine::AEngine(AGame* game) : pGame(game)
 {
 	gEngineInstance = this;
 };
@@ -18,16 +18,20 @@ void AEngine::SetVideoParams()
 void AEngine::Init()
 {
 	{
-		window = new ARenderer();
-		if (!window)
+		pWindow = new ARenderer();
+		if (!pWindow)
 		{
 			AppTerminate();
 		}
 		SetVideoParams();
-		window->Init(pVideoParams);
+		pWindow->Init(pVideoParams);
+	}
+	{
+		pCallback = new ACallback();
+		pCallback->InitKeys();
 	}
 
-	game->Init();
+	pGame->Init();
 
 	CalculateDeltaTime();
 	
@@ -37,15 +41,16 @@ void AEngine::Init()
 void AEngine::Tick()
 {
 	CalculateDeltaTime();
-	game->Tick();
-	window->Render(game);
+	pGame->Tick();
+	pWindow->Render(pGame);
+	pCallback->Tick(DeltaTime);
 }
 
 void AEngine::Run()
 {
 	bool quit = false;
 
-	while(!window->ShouldClose())
+	while(!pWindow->ShouldClose())
 	{
 		Tick();
 	}
@@ -53,9 +58,10 @@ void AEngine::Run()
 
 void AEngine::Finish()
 {
-	window->finish();
-	if(window)
-		delete window;
+	pWindow->finish();
+	if(pWindow)
+		delete pWindow;
+	delete pCallback;
 }
 
 void AEngine::Start()
@@ -72,6 +78,11 @@ void AEngine::CalculateDeltaTime()
 	std::chrono::time_point<std::chrono::steady_clock> Now = std::chrono::steady_clock::now();
 	DeltaTime = std::chrono::duration_cast<std::chrono::microseconds>(Now - LastTime).count() / 1000.0f / 1000.0f;
 	LastTime = Now;
+}
+
+ACallback* AEngine::GetCallback()
+{
+	return pCallback;
 }
 
 float AEngine::GetDeltaTime()
